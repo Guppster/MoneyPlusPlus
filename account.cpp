@@ -1,14 +1,8 @@
-#include account.h
+#include "account.h"
 
-//Default Constructor
-Account::account()
+int Account::checkBalance()
 {
-
-}
-
-int Account::checkBalance(int amount)
-{
-	balance += amount;
+	return balance; 
 }
 
 void Account::deposit(int amount)
@@ -16,9 +10,7 @@ void Account::deposit(int amount)
 	balance += amount;
 }
 
-
-
-void Account::deposit(int amount)
+void Account::withdraw(int amount)
 {
-	balance += amount;
+	balance -= amount;
 }

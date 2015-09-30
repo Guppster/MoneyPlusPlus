@@ -1,18 +1,19 @@
 #include <iostream>
 #include <istream>
 #include <string>
+#include "account.h"
 
 using namespace std;
 
-class Account
+class Customer
 {
 public:
-	bool type;
-	int balance;
+	string firstName;
+	string lastName;
+
+	Account account[69];
 
 	void deposit(int);
 	void withdraw(int);
-	void setName(string);
-	string getName();
 	int checkBalance();
 };
