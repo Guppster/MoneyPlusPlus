@@ -10,10 +10,17 @@ class Customer
 public:
 	string firstName;
 	string lastName;
+	string email;
+	string password;
+	int iD;
 
 	Account account[69];
 
-	void deposit(int);
-	void withdraw(int);
-	int checkBalance();
+	void setFirstName(string fname);
+	void setLastName(string lname);
+	void setID(int num);
+
+	string getFirstName();
+	string getLastName();
+	int getID();
 };
