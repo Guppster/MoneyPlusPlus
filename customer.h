@@ -16,11 +16,17 @@ public:
 
 	Account account[69];
 
-	void setFirstName(string fname);
-	void setLastName(string lname);
-	void setID(int num);
+	Customer(string, string, string, string);
+
+	void setFirstName(string);
+	void setLastName(string);
+	void setEmail(string);
+	void setPass(string);
+	void setID(int);
 
 	string getFirstName();
 	string getLastName();
+	string getEmail();
+	string getPass();
 	int getID();
 };

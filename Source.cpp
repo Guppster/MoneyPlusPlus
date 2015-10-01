@@ -13,6 +13,9 @@ void login()
 
 	cout << "Enter your password: \t";
 	cin >> pass;
+
+	Customer customer; 
+
 }
 
 void registerNew()

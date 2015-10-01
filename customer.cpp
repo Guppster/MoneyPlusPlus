@@ -1,21 +1,59 @@
 #include "customer.h"
 
+//Constructor
+Customer::Customer(string fname, string lname, string _email, string pass)
+{
+    firstName = fname;
+    lastName = lname;
+    email = _email;
+    password = pass;
+}
+
+//Sets the first name
 void Customer::setFirstName(string name)
 {
-    firstname = name;
+    firstName = name;
 }
 
+//Sets the last name
 void Customer::setLastName(string name)
 {
-    lastname = name;
+    lastName = name;
 }
 
+//Sets the email
+void Customer::setEmail(string _email)
+{
+    email = _email;
+}
+
+//Sets the password
+void Customer::setPass(string pass)
+{
+    password = pass;
+}
+
+//retrieves the customer's email
+string Customer::getEmail()
+{
+    return email;
+}
+
+//retrieves the customer's password
+//currently in plaintext needs to be encrypyed
+string Customer::getPass()
+{
+    return password;
+}
+
+//retrieves the customer's firstname
 string Customer::getFirstName()
 {
-    return firstname;
+    return firstName;
 }
 
+//retrieves the customer's lastname
 string Customer::getLastName()
 {
-    return lastname;
+    return lastName;
 }
