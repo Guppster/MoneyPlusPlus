@@ -9,3 +9,13 @@ bool Server::signup()
 {
 
 }
+
+void Server::loadCustomers()
+{
+
+}
+
+void Server::storeCustomers()
+{
+	
+}

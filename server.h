@@ -7,7 +7,12 @@ class Server
 {
 public:
 
-	Customer customer[69];
+	//Number of customers in system. (testing limit set to 100)
+	Customer customer[100];
+
+	//Functionality
 	bool auth(Customer*);
 	bool signup();
+	void loadCustomers();
+	void storeCustomers();
 };

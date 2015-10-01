@@ -1,25 +1,7 @@
-
 #include <iostream>
 #include <string>
 
 using namespace std;
-
-int main()
-{
-	char selection;
-	
-	cout << "(L)ogin or (R)egister: \t";
-	cin >> selection;
-
-	if(selection=='L' || selection=='l')
-	{
-		login()
-	}
-	else if(selection=="R" || selection == "r")
-	{
-		registerNew();
-	}
-}//End of main method
 
 void login()
 {
@@ -37,3 +19,21 @@ void registerNew()
 {
 
 }
+
+int main()
+{
+	char selection;
+	
+	cout << "(L)ogin or (R)egister: \t";
+	cin >> selection;
+
+	if(selection=='L' || selection=='l')
+	{
+		login();
+	}
+	else if(selection=='R' || selection == 'r')
+	{
+		registerNew();
+	}
+}//End of main method
+
