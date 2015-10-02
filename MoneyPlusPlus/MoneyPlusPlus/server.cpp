@@ -3,11 +3,12 @@
 bool Server::auth(Customer* customer)
 {
 	customer -> setFirstName("poop");
+	return false;
 }
 
 bool Server::signup(Customer* customer)
 {
-
+	return true;
 }
 
 //read file and store all records as customers

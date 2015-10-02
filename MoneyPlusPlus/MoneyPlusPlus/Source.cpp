@@ -22,11 +22,11 @@ void login()
 		cout << "Enter your password: \t";
 		cin >> pass;
 
-		tempCustomer = Customer(id, pass);
+		Customer tempCustomer (id, pass);
 
 		if (!server.auth(&tempCustomer))
 		{
-			cout << "Error: Invalid Login Credentials";
+			cout << "Error: Invalid Login Credentials" << endl;
 		}
 	} while (!server.auth(&tempCustomer));
 	
@@ -60,11 +60,11 @@ void registerNew()
 
 		if (pass != passconfirm)
 		{
-			cout << "Error: Passwords do not match, try again";
+			cout << "Error: Passwords do not match, try again" << endl;
 		}
 	} while (pass != passconfirm);
 
-	Customer tempCustomer = Customer(fname, lname, email, pass);
+	 Customer tempCustomer (fname, lname, email, pass);
 	
 	server.signup(&tempCustomer);
 
