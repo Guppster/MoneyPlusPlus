@@ -12,7 +12,7 @@ public:
 
 	//Functionality
 	bool auth(Customer*);
-	bool signup();
+	bool signup(Customer*);
 	void loadCustomers();
 	void storeCustomers();
 };

@@ -5,7 +5,7 @@ bool Server::auth(Customer* customer)
 	customer -> setFirstName("poop");
 }
 
-bool Server::signup()
+bool Server::signup(Customer* customer)
 {
 
 }

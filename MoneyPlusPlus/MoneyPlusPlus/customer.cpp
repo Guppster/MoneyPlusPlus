@@ -1,5 +1,11 @@
 #include "customer.h"
 
+//Default Constructor
+Customer::Customer()
+{
+
+}
+
 //Auth Constructor
 Customer::Customer(int id, string pass)
 {

@@ -13,20 +13,60 @@ void login()
 	int id; 
 	string pass;
 
-	cout << "Enter your account ID: \t";
-	cin >> id;
+	Customer tempCustomer;
+	do
+	{
+		cout << "Enter your account ID: \t";
+		cin >> id;
 
-	cout << "Enter your password: \t";
-	cin >> pass;
+		cout << "Enter your password: \t";
+		cin >> pass;
 
-	Customer tempCustomer = Customer(id, pass);
+		tempCustomer = Customer(id, pass);
 
-	server.auth(tempCustomer*);
+		if (!server.auth(&tempCustomer))
+		{
+			cout << "Error: Invalid Login Credentials";
+		}
+	} while (!server.auth(&tempCustomer));
+	
 }//End of login method
 
 /*This method controls the register prompt flow*/
 void registerNew()
 {
+	string fname;
+	string lname;
+	string email;
+	string pass;
+	string passconfirm;
+
+	cout << "Enter your first name: \t";
+	cin >> fname;
+
+	cout << "Enter your last name: \t";
+	cin >> lname;
+
+	cout << "Enter your email: \t";
+	cin >> email;
+
+	do
+	{
+		cout << "Enter your password: \t";
+		cin >> pass;
+
+		cout << "Confirm your password: \t";
+		cin >> passconfirm;
+
+		if (pass != passconfirm)
+		{
+			cout << "Error: Passwords do not match, try again";
+		}
+	} while (pass != passconfirm);
+
+	Customer tempCustomer = Customer(fname, lname, email, pass);
+	
+	server.signup(&tempCustomer);
 
 }//End of registerNew method
 

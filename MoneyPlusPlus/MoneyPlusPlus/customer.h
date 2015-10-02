@@ -16,6 +16,7 @@ public:
 
 	Account account[69];
 
+	Customer();
 	Customer(int, string);
 	Customer(string, string, string, string);
 
