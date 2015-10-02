@@ -8,13 +8,19 @@ using namespace std;
 class Account
 {
 public:
-	bool type;
+	bool isSaving;
 	int balance;
 	string name;
 
 	void deposit(int);
 	void withdraw(int);
-	void setName(string);
-	string getName();
 	int checkBalance();
+
+	void setName(string);
+	void setType(bool);
+	void setBalance(int);
+
+	string getName();
+	bool getType();
+	int getBalance();
 };

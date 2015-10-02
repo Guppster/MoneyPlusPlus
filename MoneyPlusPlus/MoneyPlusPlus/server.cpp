@@ -1,3 +1,5 @@
+#include <iostream>
+#include <fstream>
 #include "server.h"
 
 //Checks if the id and password are valid for authentication 
@@ -50,7 +52,7 @@ Customer* Server::findCustomer(int id)
 //Traverse the array and confirm the id is contained within the array
 bool Server::idExists(int id)
 {
-	for (std::vector<Customer>::size_type i = 0; i != customers.size(); i++)
+	for (vector<Customer>::size_type i = 0; i != customers.size(); i++)
 	{
 		if (customers[i]->getID() == id)
 		{
@@ -64,7 +66,7 @@ bool Server::idExists(int id)
 //Traverse the array and confirm the email is contained within the array
 bool Server::emailExists(string email)
 {
-	for (std::vector<Customer>::size_type i = 0; i != customers.size(); i++)
+	for (vector<Customer>::size_type i = 0; i != customers.size(); i++)
 	{
 		if (customers[i]->getEmail() == email)
 		{
@@ -85,7 +87,26 @@ void Server::deserialize()
 //write one record for each customer
 void Server::serialize()
 {
+	vector<Account*> accs;
+	ofstream list("Customers.txt");
+	if (list.is_open())
+	{
+		for (vector<Customer>::size_type i = 0; i != customers.size(); i++)
+		{
+			accs = customers[i]->getAccounts();
 
+			list << customers[i]->getID() << "," << customers[i]->getFirstName() << "," << customers[i]->getLastName() << "," << customers[i]->getEmail() << "," << customers[i]->getPass() << "\n";
+
+			list << "Accounts:[" << accs.size() << "]";
+
+			for (std::vector<Account>::size_type z = 0; z != accs.size(); z++)
+			{
+				list << accs[z]->getType() << "," << accs[z]->getName() << "," << accs[z]->getBalance() << "|";
+			}
+		}
+		list.close();
+	}
+	else cout << "Error: Unable to save";
 }
 
 //Generates a UniqueID for the user

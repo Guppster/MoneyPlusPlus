@@ -20,7 +20,27 @@ void Account::setName(string _name)
 	name = _name;
 }
 
+void Account::setType(bool type)
+{
+	isSaving = type;
+}
+
+void Account::setBalance(int num)
+{
+	balance = num;
+}
+
 string Account::getName()
 {
 	return name;
+}
+
+bool Account::getType()
+{
+	return isSaving;
+}
+
+int Account::getBalance()
+{
+	return balance;
 }

@@ -69,6 +69,11 @@ int Customer::getID()
 	return iD;
 }
 
+vector<Account*> Customer::getAccounts()
+{
+	return accounts;
+}
+
 //retrieves the customer's firstname
 string Customer::getFirstName()
 {

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <istream>
 #include <string>
+#include <vector>
 #include "account.h"
 
 using namespace std;
@@ -15,7 +16,7 @@ public:
 	string password;
 	int iD;
 
-	Account account[69];
+	vector<Account*> accounts;
 
 	Customer();
 	Customer(int, string);
@@ -32,4 +33,5 @@ public:
 	string getEmail();
 	string getPass();
 	int getID();
+	vector<Account*> getAccounts();
 };
