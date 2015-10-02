@@ -3,7 +3,7 @@
 //Checks if the id and password are valid for authentication 
 bool Server::auth(Customer* customer)
 {
-	if (customerExists(customer->getID()))
+	if (idExists(customer->getID()))
 	{
 		found = findCustomer(customer->getID());
 
@@ -11,6 +11,7 @@ bool Server::auth(Customer* customer)
 		{
 			return true;
 		}
+		return false;
 	}
 	else
 	{
@@ -18,11 +19,18 @@ bool Server::auth(Customer* customer)
 	}
 }
 
-bool Server::signup(Customer* customer)
+//Returns ID if successfull, Returns -1 if unsuccessful
+int Server::signup(Customer* customer)
 {
-	//Check if valid + duplication
+	if (emailExists(customer->getEmail()))
+	{
+		return -1;
+	}
+
+	customer->setID(generateID(customer));
 	customers.push_back(customer);
-	return true;
+
+	return customer->getID();
 }
 
 //Traverse array and find return a pointer to the customer with that ID
@@ -40,7 +48,7 @@ Customer* Server::findCustomer(int id)
 }
 
 //Traverse the array and confirm the id is contained within the array
-bool Server::customerExists(int id)
+bool Server::idExists(int id)
 {
 	for (std::vector<Customer>::size_type i = 0; i != customers.size(); i++)
 	{
@@ -53,6 +61,21 @@ bool Server::customerExists(int id)
 	return false;
 }
 
+//Traverse the array and confirm the email is contained within the array
+bool Server::emailExists(string email)
+{
+	for (std::vector<Customer>::size_type i = 0; i != customers.size(); i++)
+	{
+		if (customers[i]->getEmail() == email)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 //read file and store all records as customers
 void Server::deserialize()
 {
@@ -64,3 +87,49 @@ void Server::serialize()
 {
 
 }
+
+//Generates a UniqueID for the user
+int Server::generateID(Customer* customer)
+{
+	int result;
+	string total;
+	string fname = customer->getFirstName();
+	string lname = customer->getLastName();
+	string email = customer->getEmail();
+
+	for (int i = 0; i != fname.length(); i++)
+	{
+		if ((int)fname.at(i) > 0)
+		{
+			total.append(to_string((int)fname.at(i)));
+		}
+			
+	}
+
+	for (int i = 0; i != lname.length(); i++)
+	{
+		if ((int)lname.at(i) > 0)
+		{
+			total.append(to_string((int)fname.at(i)));
+		}
+			
+	}
+
+	for (int i = 0; i != email.length(); i++)
+	{
+		if ((int)email.at(i) > 0)
+		{
+			total.append(to_string((int)fname.at(i)));
+		}
+			
+	}
+
+	result = atoi(total.c_str()) % 1000000000;
+
+	while (idExists(result))
+	{
+		result++;
+	}
+
+	return result;
+}//End of generateID Method

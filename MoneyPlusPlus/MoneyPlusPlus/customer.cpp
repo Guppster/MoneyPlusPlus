@@ -46,6 +46,11 @@ void Customer::setPass(string pass)
     password = pass;
 }
 
+void Customer::setID(int id)
+{
+	iD = id;
+}
+
 //retrieves the customer's email
 string Customer::getEmail()
 {
@@ -57,6 +62,11 @@ string Customer::getEmail()
 string Customer::getPass()
 {
     return password;
+}
+
+int Customer::getID()
+{
+	return iD;
 }
 
 //retrieves the customer's firstname

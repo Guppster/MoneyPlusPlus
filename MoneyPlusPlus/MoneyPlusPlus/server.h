@@ -14,12 +14,14 @@ public:
 
 	//Public functionality
 	bool auth(Customer*);
-	bool signup(Customer*);
+	int signup(Customer*);
 
 private:
 	//Private Functionality
 	void deserialize();
 	void serialize();
-	bool customerExists(int);
+	int generateID(Customer*);
+	bool idExists(int);
+	bool emailExists(string);
 	Customer* findCustomer(int);
 };

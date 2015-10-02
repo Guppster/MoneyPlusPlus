@@ -66,7 +66,8 @@ void registerNew()
 
 	 Customer tempCustomer (fname, lname, email, pass);
 	
-	server.signup(&tempCustomer);
+	cout << "Your ID is: \t" << server.signup(&tempCustomer) << endl;
+	cin >> fname;
 
 }//End of registerNew method
 
