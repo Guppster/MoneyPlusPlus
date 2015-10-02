@@ -20,7 +20,7 @@ public:
 
 	Customer();
 	Customer(int, string);
-	Customer(string, string, string, string);
+	Customer(int, string, string, string, string);
 
 	void setFirstName(string);
 	void setLastName(string);

@@ -14,8 +14,9 @@ Customer::Customer(int id, string pass)
 }
 
 //Full Constructor
-Customer::Customer(string fname, string lname, string _email, string pass)
+Customer::Customer(int id, string fname, string lname, string _email, string pass)
 {
+	iD = id;
     firstName = fname;
     lastName = lname;
     email = _email;

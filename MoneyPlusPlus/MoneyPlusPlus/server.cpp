@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "server.h"
 
 //Checks if the id and password are valid for authentication 
@@ -81,7 +82,41 @@ bool Server::emailExists(string email)
 //read file and store all records as customers
 void Server::deserialize()
 {
+	vector<string> tempCustomer;
+	Customer newCustomer;
+	string line;
+	string fname;
+	string lname;
+	string email;
+	string pass;
+	int numAccounts;
 
+	ifstream list("Customers.txt");
+	if (list.is_open())
+	{
+		while (getline(list, line))
+		{
+			//Debugging
+			cout << line << '\n';
+
+			//Put retrieved data in vector for easier access
+			tempCustomer = split(line, ',');
+
+			//Create new customer object with data read in
+			newCustomer = Customer(atoi(tempCustomer[0].c_str()), tempCustomer[1], tempCustomer[2], tempCustomer[3], tempCustomer[4]);
+			
+			//Read in the accounts header line for this customer
+			getline(list, line);
+
+			numAccounts = atoi(line.c_str());
+
+			for()
+
+			customers.push_back(newCustomer);
+		}
+		list.close();
+	}
+	else cout << "Unable to open file";
 }
 
 //write one record for each customer
@@ -97,7 +132,7 @@ void Server::serialize()
 
 			list << customers[i]->getID() << "," << customers[i]->getFirstName() << "," << customers[i]->getLastName() << "," << customers[i]->getEmail() << "," << customers[i]->getPass() << "\n";
 
-			list << "Accounts:[" << accs.size() << "]";
+			list << accs.size();
 
 			for (std::vector<Account>::size_type z = 0; z != accs.size(); z++)
 			{
@@ -107,6 +142,24 @@ void Server::serialize()
 		list.close();
 	}
 	else cout << "Error: Unable to save";
+}
+
+vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) 
+{
+	std::stringstream ss(s);
+	std::string item;
+	while (std::getline(ss, item, delim)) {
+		elems.push_back(item);
+	}
+	return elems;
+}
+
+
+vector<std::string> split(const std::string &s, char delim) 
+{
+	std::vector<std::string> elems;
+	split(s, delim, elems);
+	return elems;
 }
 
 //Generates a UniqueID for the user
