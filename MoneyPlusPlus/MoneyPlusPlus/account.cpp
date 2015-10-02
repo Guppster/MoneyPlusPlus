@@ -14,3 +14,13 @@ void Account::withdraw(int amount)
 {
 	balance -= amount;
 }
+
+void Account::setName(string _name)
+{
+	name = _name;
+}
+
+string Account::getName()
+{
+	return name;
+}

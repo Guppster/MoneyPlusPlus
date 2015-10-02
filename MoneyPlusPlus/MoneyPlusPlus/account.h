@@ -10,6 +10,7 @@ class Account
 public:
 	bool type;
 	int balance;
+	string name;
 
 	void deposit(int);
 	void withdraw(int);
