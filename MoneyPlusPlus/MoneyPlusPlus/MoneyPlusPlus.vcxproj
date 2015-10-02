@@ -18,6 +18,17 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="account.cpp" />
+    <ClCompile Include="customer.cpp" />
+    <ClCompile Include="server.cpp" />
+    <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="account.h" />
+    <ClInclude Include="customer.h" />
+    <ClInclude Include="server.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2A26FBA0-E1F2-4F7B-88DD-C15639003CEA}</ProjectGuid>
     <RootNamespace>MoneyPlusPlus</RootNamespace>
@@ -117,17 +128,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\account.cpp" />
-    <ClCompile Include="..\..\customer.cpp" />
-    <ClCompile Include="..\..\server.cpp" />
-    <ClCompile Include="..\..\Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\account.h" />
-    <ClInclude Include="..\..\customer.h" />
-    <ClInclude Include="..\..\server.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
