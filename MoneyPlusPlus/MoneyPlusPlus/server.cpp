@@ -75,7 +75,6 @@ bool Server::emailExists(string email)
 	return false;
 }
 
-
 //read file and store all records as customers
 void Server::deserialize()
 {
@@ -177,7 +176,7 @@ int Server::generateID(Customer* customer)
 	string lname = customer->getLastName();
 	string email = customer->getEmail();
 
-	for (int i = 0; i != fname.length(); i++)
+	for (int i = 0; i != fname.size() && i < 5; i++)
 	{
 		if ((int)fname.at(i) > 0)
 		{
@@ -186,20 +185,20 @@ int Server::generateID(Customer* customer)
 			
 	}
 
-	for (int i = 0; i != lname.length(); i++)
+	for (int j = 0; j != lname.size() && j < 5; j++)
 	{
-		if ((int)lname.at(i) > 0)
+		if ((int)lname.at(j) > 0)
 		{
-			total.append(to_string((int)fname.at(i)));
+			total.append(to_string((int)lname.at(j)));
 		}
 			
 	}
 
-	for (int i = 0; i != email.length(); i++)
+	for (int k = 0; k != email.size() && k < 5; k++)
 	{
-		if ((int)email.at(i) > 0)
+		if ((int)email.at(k) > 0)
 		{
-			total.append(to_string((int)fname.at(i)));
+			total.append(to_string((int)email.at(k)));
 		}
 			
 	}

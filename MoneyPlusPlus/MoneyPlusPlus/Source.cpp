@@ -1,11 +1,18 @@
 #include <iostream>
 #include <string>
+#include <stdlib.h>
 #include "customer.h"
 #include "server.h"
 
 using namespace std;
 
 Server server;
+
+void mainMenu(Customer customer)
+{
+	system("cls");
+	cout << "Welcome " << customer.getFirstName() << ".";
+}
 
 /* This method controls the login prompt flow */
 void login()
@@ -29,8 +36,11 @@ void login()
 			cout << "Error: Invalid Login Credentials" << endl;
 		}
 	} while (!server.auth(&tempCustomer));
+
+	mainMenu(tempCustomer);
 	
 }//End of login method
+
 
 /*This method controls the register prompt flow*/
 void registerNew()
@@ -64,12 +74,15 @@ void registerNew()
 		}
 	} while (pass != passconfirm);
 
-	 Customer tempCustomer (fname, lname, email, pass);
+	Customer tempCustomer (fname, lname, email, pass);
 	
 	cout << "Your ID is: \t" << server.signup(&tempCustomer) << endl;
+	cout << "\nPress Enter To Continue...";
 	cin >> fname;
 
-}//End of registerNew method\
+	mainMenu(tempCustomer);
+
+}//End of registerNew method
 
 /*The main program flow*/
 int main()
@@ -87,5 +100,7 @@ int main()
 	{
 		registerNew();
 	}
+	cin >> selection;
 }//End of main method
+
 
