@@ -91,93 +91,98 @@ void mainMenu(Customer *customer)
 	system("clear");
 	cout << "Welcome " << customer->getFirstName() << ".\n\n";
 
-	//If the customer has no accounts 
-	if (accounts.empty())
+	if (customer->getRole() == 0)
 	{
-		cout << "1. " << "Apply for an Account\n";
-		cout << "2. " << "Exit the Program\n";
-		cout << "\nOption #: ";
-
-		cin >> selection;
-
-		if (selection = 1) applyForAccount(customer);
-		else if (selection = 2) server.serialize();
-	}
-	else//If the customer has accounts 
-	{
-		cout << "[Your Accounts]\n";
-
-		//List all accounts
-		for (i = 0; i != accounts.size(); i++)
+		//If the customer has no accounts 
+		if (accounts.empty())
 		{
-			tempApproved = (accounts[i]->getApproved() == 0) ? " - [UNAPPROVED]" : "";
-			tempNum = i + 1;
-			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << tempApproved << "\n";
-			counter = i + 1;
+			cout << "1. " << "Apply for an Account\n";
+			cout << "2. " << "Exit the Program\n";
+			cout << "\nOption #: ";
+
+			cin >> selection;
+
+			if (selection = 1) applyForAccount(customer);
+			else if (selection = 2) server.serialize();
 		}
-		
-		//Organizing output with a blank line
-		cout << "\n[Other Actions]\n";
-		i++;
-
-		cout << i++ << ". " << "Apply for an Account\n";
-		cout << i++ << ". " << "Transfer money between accounts\n";
-		cout << i++ << ". " << "Tranfer money to another user\n";
-		cout << i++ << ". " << "Cancel an Account\n";
-		cout << i++ << ". " << "Change your password\n";
-		cout << i++ << ". " << "Logout\n";
-
-		cout << "\nOption #: ";
-
-		cin >> selection;
-
-		for(int j = 0; j != accounts.size(); j++)
+		else//If the customer has accounts 
 		{
-			if(selection == (counter - j))
+			cout << "[Your Accounts]\n";
+
+			//List all accounts
+			for (i = 0; i != accounts.size(); i++)
 			{
-				if (accounts[j]->getApproved() == 1)
+				tempApproved = (accounts[i]->getApproved() == 0) ? " - [UNAPPROVED]" : "";
+				tempNum = i + 1;
+				cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << tempApproved << "\n";
+				counter = i + 1;
+			}
+
+			//Organizing output with a blank line
+			cout << "\n[Other Actions]\n";
+			i++;
+
+			cout << i++ << ". " << "Apply for an Account\n";
+			cout << i++ << ". " << "Transfer money between accounts\n";
+			cout << i++ << ". " << "Tranfer money to another user\n";
+			cout << i++ << ". " << "Cancel an Account\n";
+			cout << i++ << ". " << "Change your password\n";
+			cout << i++ << ". " << "Logout\n";
+
+			cout << "\nOption #: ";
+
+			cin >> selection;
+
+			for (int j = 0; j != accounts.size(); j++)
+			{
+				if (selection == (counter - j))
 				{
-					openAccount(customer, accounts[j]);
-				}
-				else
-				{
-					cout << "\nThis Account is UNAPPROVED. Please wait for a manager to approve your account.\n";
-					cout << "Press Enter to Continue...";
-					cin.get();
-					cin.get();
-					mainMenu(customer);
+					if (accounts[j]->getApproved() == 1)
+					{
+						openAccount(customer, accounts[j]);
+					}
+					else
+					{
+						cout << "\nThis Account is UNAPPROVED. Please wait for a manager to approve your account.\n";
+						cout << "Press Enter to Continue...";
+						cin.get();
+						cin.get();
+						mainMenu(customer);
+					}
 				}
 			}
-		}
 
-		if (selection == (counter + 1))
-		{
-			applyForAccount(customer);
+			if (selection == (counter + 1))
+			{
+				applyForAccount(customer);
+			}
+			else if (selection == (counter + 2))
+			{
+				//transferBetweenAccounts();
+			}
+			else if (selection == (counter + 3))
+			{
+				//transferToAnotherUser();
+			}
+			else if (selection == (counter + 4))
+			{
+				//cancelAccount();
+			}
+			else if (selection == (counter + 5))
+			{
+				//changePassword();
+			}
+			else if (selection == (counter + 6))
+			{
+				server.serialize();
+			}
 		}
-		else if (selection == (counter + 2))
-		{
-			//transferBetweenAccounts();
-		}
-		else if (selection == (counter + 3))
-		{
-			//transferToAnotherUser();
-		}
-		else if (selection == (counter + 4))
-		{
-			//cancelAccount();
-		}
-		else if (selection == (counter + 5))
-		{
-			//changePassword();
-		}
-		else if (selection == (counter + 6))
-		{
-			server.serialize();
-		}
-
-
 	}
-}
+	else if (customer->getRole() == 1)
+	{
+		cout << "You are a Manager";
+	}
+}//End of main menu method
 
 /* This method controls the login prompt flow */
 void login()

@@ -115,9 +115,7 @@ void Server::deserialize()
 					newAccount = new Account(atoi(tempAcc[0].c_str()), tempAcc[1], atoi(tempAcc[2].c_str()), atoi(tempAcc[3].c_str()));
 					newCustomer->addAccount(newAccount);
 				}
-
 			}
-
 			customers.push_back(newCustomer);
 		}
 		list.close();
