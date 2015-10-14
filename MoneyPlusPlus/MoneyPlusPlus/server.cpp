@@ -83,13 +83,16 @@ bool Server::emailExists(string email)
 void Server::deserialize()
 {
 	vector<string> tempCustomer;
-	Customer newCustomer;
+	vector<string> tempAccounts;
+	vector<string> tempAcc;
+	Account newAccount;
+	Customer* newCustomer;
 	string line;
 	string fname;
 	string lname;
 	string email;
 	string pass;
-	int numAccounts;
+	bool isSaving;
 
 	ifstream list("Customers.txt");
 	if (list.is_open())
@@ -103,14 +106,20 @@ void Server::deserialize()
 			tempCustomer = split(line, ',');
 
 			//Create new customer object with data read in
-			newCustomer = Customer(atoi(tempCustomer[0].c_str()), tempCustomer[1], tempCustomer[2], tempCustomer[3], tempCustomer[4]);
+			newCustomer = new Customer(atoi(tempCustomer[0].c_str()), tempCustomer[1], tempCustomer[2], tempCustomer[3], tempCustomer[4]);
 			
-			//Read in the accounts header line for this customer
+			//Read in the accounts line for this customer
 			getline(list, line);
 
-			numAccounts = atoi(line.c_str());
+			//Put retrieved data in vector for easier access
+			tempAccounts = split(line, '|');
 
-			for()
+			for (int i = 0; i < tempAccounts.size(); i++)
+			{
+				tempAcc = split(tempAccounts[i], ',');
+
+				newAccount = Account(atoi(tempAcc[1].c_str()), tempAcc[2], atoi(tempAcc[3].c_str()));
+			}
 
 			customers.push_back(newCustomer);
 		}
@@ -123,6 +132,8 @@ void Server::deserialize()
 void Server::serialize()
 {
 	vector<Account*> accs;
+	int isSaving = 0;
+
 	ofstream list("Customers.txt");
 	if (list.is_open())
 	{
@@ -131,8 +142,6 @@ void Server::serialize()
 			accs = customers[i]->getAccounts();
 
 			list << customers[i]->getID() << "," << customers[i]->getFirstName() << "," << customers[i]->getLastName() << "," << customers[i]->getEmail() << "," << customers[i]->getPass() << "\n";
-
-			list << accs.size();
 
 			for (std::vector<Account>::size_type z = 0; z != accs.size(); z++)
 			{

@@ -1,5 +1,20 @@
 #include "account.h"
 
+//Default Constructor
+Account::Account()
+{
+
+}
+
+//Full Constructor
+Account::Account(int type, string _name, int amount)
+{
+	isSaving = type;
+	name = _name;
+	balance = amount;
+}
+
+
 int Account::checkBalance()
 {
 	return balance; 
@@ -20,7 +35,7 @@ void Account::setName(string _name)
 	name = _name;
 }
 
-void Account::setType(bool type)
+void Account::setType(int type)
 {
 	isSaving = type;
 }
@@ -35,7 +50,7 @@ string Account::getName()
 	return name;
 }
 
-bool Account::getType()
+int Account::getType()
 {
 	return isSaving;
 }

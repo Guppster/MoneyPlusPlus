@@ -13,6 +13,15 @@ Customer::Customer(int id, string pass)
 	password = pass;
 }
 
+//Full Constructor without ID
+Customer::Customer(string fname, string lname, string _email, string pass)
+{
+	firstName = fname;
+	lastName = lname;
+	email = _email;
+	password = pass;
+}
+
 //Full Constructor
 Customer::Customer(int id, string fname, string lname, string _email, string pass)
 {

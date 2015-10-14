@@ -69,7 +69,7 @@ void registerNew()
 	cout << "Your ID is: \t" << server.signup(&tempCustomer) << endl;
 	cin >> fname;
 
-}//End of registerNew method
+}//End of registerNew method\
 
 /*The main program flow*/
 int main()
