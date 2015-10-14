@@ -48,9 +48,36 @@ void applyForAccount(Customer customer)
 
 void openAccount(Customer customer, Account *account)
 {
+	int selection = 0;
+	int tempNum;
+
 	system("clear");
-	cout << account->getName() << " : " << account->getTypeinString();
-}
+	cout << account->getName() << " : " << account->getTypeinString() << "\n";
+	cout << "Balance: " << account->getBalance() << "\n";
+
+	cout << "1. " << "Deposit Money\n";
+	cout << "2. " << "Withdraw Money\n";
+	cout << "\nOption #: ";
+
+	cin >> selection;
+
+	if(selection == 1)
+	{
+		system("clear");
+		cout << "How much would you like to deposit: ";
+		cin >> tempNum;
+		account->deposit(tempNum);
+		openAccount(customer, account);
+	}
+	else if(selection == 2)
+	{
+		system("clear");
+		cout << "How much would you like to withdraw: ";
+		cin >> tempNum;
+		account->withdraw(tempNum);
+		openAccount(customer, account);
+	}
+}//End of openAccount method
 
 void mainMenu(Customer customer)
 {
@@ -116,20 +143,25 @@ void mainMenu(Customer customer)
 		}
 		else if (selection == (counter + 2))
 		{
-
+			//transferBetweenAccounts();
 		}
 		else if (selection == (counter + 3))
 		{
-
+			//transferToAnotherUser();
 		}
 		else if (selection == (counter + 4))
 		{
-
+			//cancelAccount();
 		}
 		else if (selection == (counter + 5))
 		{
-
+			//changePassword();
 		}
+		else if (selection == (counter + 6))
+		{
+			//changePassword();
+		}
+
 
 	}
 }
