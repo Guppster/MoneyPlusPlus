@@ -172,7 +172,7 @@ void mainMenu(Customer *customer)
 		}
 		else if (selection == (counter + 6))
 		{
-			//Logout();
+			server.serialize();
 		}
 
 

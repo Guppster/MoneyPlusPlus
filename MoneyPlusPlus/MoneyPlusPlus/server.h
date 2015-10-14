@@ -31,7 +31,6 @@ private:
 	bool emailExists(string);
 	vector<string> split(const string &s, char delim);
 	vector<string> splitHelper(const string &s, char delim, vector<string> &elems);
-
 };
 
 

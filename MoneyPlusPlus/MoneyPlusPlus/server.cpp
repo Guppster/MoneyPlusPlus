@@ -1,6 +1,5 @@
 #include "server.h"
 
-
 //Checks if the id and password are valid for authentication 
 bool Server::auth(Customer* customer)
 {
@@ -95,30 +94,28 @@ void Server::deserialize()
 	{
 		while (getline(list, line))
 		{
-			//Debugging
-			cout << line << '\n';
-
 			//Put retrieved data in vector for easier access
 			tempCustomer = split(line, ',');
 
 			//Create new customer object with data read in
-			newCustomer = new Customer(atoi(tempCustomer[0].c_str()), tempCustomer[1], tempCustomer[2], tempCustomer[3], tempCustomer[4]);
+			newCustomer = new Customer(atoi(tempCustomer[0].c_str()), tempCustomer[1], tempCustomer[2], tempCustomer[3], tempCustomer[4], atoi(tempCustomer[5].c_str()));
 			
-			//Read in the accounts line for this customer
-			getline(list, line);
-
-			//Put retrieved data in vector for easier access
-			tempAccounts = split(line, '|');
-
-			for (int i = 0; i != tempAccounts.size(); i++)
+			if (newCustomer->getRole() == 0)
 			{
-				//Debugging
-				cout << tempAccounts[i] << '\n';
+				//Read in the accounts line for this customer
+				getline(list, line);
 
-				tempAcc = split(tempAccounts[i], ',');
+				//Put retrieved data in vector for easier access
+				tempAccounts = split(line, '|');
 
-				newAccount = new Account(atoi(tempAcc[0].c_str()), tempAcc[1], atoi(tempAcc[2].c_str()), atoi(tempAcc[3].c_str()));
-				newCustomer->addAccount(newAccount);
+				for (int i = 0; i != tempAccounts.size(); i++)
+				{
+					tempAcc = split(tempAccounts[i], ',');
+
+					newAccount = new Account(atoi(tempAcc[0].c_str()), tempAcc[1], atoi(tempAcc[2].c_str()), atoi(tempAcc[3].c_str()));
+					newCustomer->addAccount(newAccount);
+				}
+
 			}
 
 			customers.push_back(newCustomer);
@@ -131,7 +128,6 @@ void Server::deserialize()
 //write one record for each customer
 void Server::serialize()
 {
-	cout << "\nWRITTING TO FILE\n";
 	vector<Account*> accs;
 
 	ofstream list("Customers.txt");
@@ -141,11 +137,16 @@ void Server::serialize()
 		{
 			accs = customers[i]->getAccounts();
 
-			list << customers[i]->getID() << "," << customers[i]->getFirstName() << "," << customers[i]->getLastName() << "," << customers[i]->getEmail() << "," << customers[i]->getPass() << "\n";
+			list << customers[i]->getID() << "," << customers[i]->getFirstName() << "," << customers[i]->getLastName() << "," << customers[i]->getEmail() << "," << customers[i]->getPass() << "," << customers[i]->getRole() << "\n";
 
-			for (vector<Account>::size_type z = 0; z != accs.size(); z++)
+			if (customers[i]->getRole() == 0)
 			{
-				list << accs[z]->getType() << "," << accs[z]->getName() << "," << accs[z]->getBalance() << "," << accs[z]->getApproved() << "|";
+				for (vector<Account>::size_type z = 0; z != accs.size(); z++)
+				{
+					list << accs[z]->getType() << "," << accs[z]->getName() << "," << accs[z]->getBalance() << "," << accs[z]->getApproved() << "|";
+				}
+
+				list << "\n";
 			}
 		}
 		list.close();

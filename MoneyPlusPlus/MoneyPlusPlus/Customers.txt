@@ -1,4 +1,9 @@
-147483647,Gurp,Singh,guppst3r@gmail.com,12
+147483647,Gurp,Singh,guppst3r@gmail.com,12,0
 0,MoreMoney,-842150451,0|
-147483648,Branny,Stew,branstew@gmail.com,123
+147483648,Branny,Stew,branstew@gmail.com,123,0
 0,MoreMoney,-842150451,0|
+147483649,Prof,Teacher,uwo.ca,1234,0
+1,SavingSoMuchMoney,-842150451,0|
+147483650,Kenny,McAlinden,tobymacfan36@gmail.com,010,0
+0,WOWSONICE,-842150451,0|
+1,Gurp,Singh,guppst3r@gmail.com,12,1

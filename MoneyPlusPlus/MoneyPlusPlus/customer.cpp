@@ -23,13 +23,14 @@ Customer::Customer(string fname, string lname, string _email, string pass)
 }
 
 //Full Constructor
-Customer::Customer(int id, string fname, string lname, string _email, string pass)
+Customer::Customer(int id, string fname, string lname, string _email, string pass, int roleNum)
 {
 	iD = id;
     firstName = fname;
     lastName = lname;
     email = _email;
     password = pass;
+	role = roleNum;
 }
 
 void Customer::addAccount(Account *account)
@@ -65,6 +66,18 @@ void Customer::setID(int id)
 {
 	iD = id;
 }
+
+
+void Customer::setRole(int num)
+{
+	role = num;
+}
+
+int Customer::getRole()
+{
+	return role;
+}
+
 
 //retrieves the customer's email
 string Customer::getEmail()

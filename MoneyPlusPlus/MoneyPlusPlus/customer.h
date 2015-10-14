@@ -15,13 +15,14 @@ public:
 	string email;
 	string password;
 	int iD;
+	int role;				//0 = customer, 1 = manager, 2 = maintainence
 
 	vector<Account*> accounts;
 
 	Customer();
 	Customer(int, string);
 	Customer(string, string, string, string);
-	Customer(int, string, string, string, string);
+	Customer(int, string, string, string, string, int);
 
 	void addAccount(Account*);
 	void setFirstName(string);
@@ -29,6 +30,7 @@ public:
 	void setEmail(string);
 	void setPass(string);
 	void setID(int);
+	void setRole(int);
 
 	vector<Account*> getAccounts();
 	string getFirstName();
@@ -36,5 +38,6 @@ public:
 	string getEmail();
 	string getPass();
 	int getID();
+	int getRole();
 	
 };

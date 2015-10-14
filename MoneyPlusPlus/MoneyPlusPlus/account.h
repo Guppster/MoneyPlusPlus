@@ -13,6 +13,7 @@ public:
 	int balance;
 	string name;
 
+
 	Account();
 	Account(int type, string _name, int amount, int status);
 
@@ -26,8 +27,8 @@ public:
 	void setApproved(int);
 
 	int getApproved();
-	string getName();
 	int getType();
-	string getTypeinString();
 	int getBalance();
+	string getTypeinString();
+	string getName();
 };
