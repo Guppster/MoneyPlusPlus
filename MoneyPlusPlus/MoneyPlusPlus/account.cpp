@@ -7,11 +7,12 @@ Account::Account()
 }
 
 //Full Constructor
-Account::Account(int type, string _name, int amount)
+Account::Account(int type, string _name, int amount, int status)
 {
 	isSaving = type;
 	name = _name;
 	balance = amount;
+	approved = status;
 }
 
 
@@ -43,6 +44,16 @@ void Account::setType(int type)
 void Account::setBalance(int num)
 {
 	balance = num;
+}
+
+void Account::setApproved(int status)
+{
+	approved = status;
+}
+
+int Account::getApproved()
+{
+	return approved;
 }
 
 string Account::getName()

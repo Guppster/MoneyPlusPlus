@@ -11,7 +11,7 @@ Server server;
 void mainMenu(Customer customer)
 {
 	system("cls");
-	cout << "Welcome " << customer.getFirstName() << ".";
+	cout << "Welcome " << customer.getFirstName() << ".\n";
 }
 
 /* This method controls the login prompt flow */

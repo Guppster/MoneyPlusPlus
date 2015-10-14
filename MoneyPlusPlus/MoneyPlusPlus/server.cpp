@@ -113,7 +113,7 @@ void Server::deserialize()
 			{
 				tempAcc = split(tempAccounts[i], ',');
 
-				newAccount = Account(atoi(tempAcc[1].c_str()), tempAcc[2], atoi(tempAcc[3].c_str()));
+				newAccount = Account(atoi(tempAcc[1].c_str()), tempAcc[2], atoi(tempAcc[3].c_str()), atoi(tempAcc[4].c_str()));
 			}
 
 			customers.push_back(newCustomer);
@@ -127,7 +127,6 @@ void Server::deserialize()
 void Server::serialize()
 {
 	vector<Account*> accs;
-	int isSaving = 0;
 
 	ofstream list("Customers.txt");
 	if (list.is_open())
@@ -140,7 +139,7 @@ void Server::serialize()
 
 			for (vector<Account>::size_type z = 0; z != accs.size(); z++)
 			{
-				list << accs[z]->getType() << "," << accs[z]->getName() << "," << accs[z]->getBalance() << "|";
+				list << accs[z]->getType() << "," << accs[z]->getName() << "," << accs[z]->getBalance() << accs[z]->getApproved() << "|";
 			}
 		}
 		list.close();
