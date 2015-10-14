@@ -8,10 +8,104 @@ using namespace std;
 
 Server server;
 
+void applyForAccount(Customer customer)
+{
+	int selection = 0;
+	string name;
+	Account *account = new Account();
+
+	system("cls");
+	cout << "1. " << "Apply for a Checking account\n";
+	cout << "2. " << "Apply for a Saving account\n";
+
+	cin >> selection;
+
+	if (selection == 1)
+	{
+		account->setType(0);
+	}
+	else
+	{
+		account->setType(1);
+	}
+
+	system("cls");
+
+	cout << "Enter name of Account\n";
+	cin >> name;
+	account->setName(name);
+
+	cout << "The account is pending and will be added to your interface when it is accepted.\n";
+	cout << "\nPress Enter To Continue...";
+	cin >> name;
+
+}//End of applyForAccount method
+
+
 void mainMenu(Customer customer)
 {
+	vector<Account*> accounts = customer.getAccounts();
+	string tempType;
+	int counter = 0;
+	int selection = 0;
+	int i = 0;
+
 	system("cls");
 	cout << "Welcome " << customer.getFirstName() << ".\n";
+
+	//If the customer has no accounts 
+	if (accounts.empty())
+	{
+		cout << "1. " << "Apply for an Account\n";
+		cout << "2. " << "Exit the Program\n";
+
+		cin >> selection;
+
+		if (selection = 1) applyForAccount(customer);
+
+
+	}
+	else//If the customer has accounts 
+	{
+		//List all accounts
+		for (i = 0; i < accounts.size(); i++)
+		{
+			tempType = (accounts[i]->getType == 1) ? "Saving" : "Checking";
+
+			cout << i << ". " << accounts[i]->getName << " - " << tempType << " account\n";
+			counter = i;
+		}
+
+		cout << i++ << ". " << "Apply for an Account\n";
+		cout << i++ << ". " << "Transfer money between accounts\n";
+		cout << i++ << ". " << "Tranfer money to another user\n";
+		cout << i++ << ". " << "Cancel an Account\n";
+		cout << i++ << ". " << "Change your password\n";
+
+		cin >> selection;
+
+		if (selection == (counter + 1))
+		{
+			applyforAccount(customer);
+		}
+		else if (selection == (counter + 2))
+		{
+
+		}
+		else if (selection == (counter + 3))
+		{
+
+		}
+		else if (selection == (counter + 4))
+		{
+
+		}
+		else if (selection == (counter + 5))
+		{
+
+		}
+
+	}
 }
 
 /* This method controls the login prompt flow */

@@ -23,16 +23,18 @@ public:
 	Customer(string, string, string, string);
 	Customer(int, string, string, string, string);
 
+	void addAccount(Account*);
 	void setFirstName(string);
 	void setLastName(string);
 	void setEmail(string);
 	void setPass(string);
 	void setID(int);
 
+	vector<Account*> getAccounts();
 	string getFirstName();
 	string getLastName();
 	string getEmail();
 	string getPass();
 	int getID();
-	vector<Account*> getAccounts();
+	
 };

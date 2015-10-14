@@ -32,6 +32,11 @@ Customer::Customer(int id, string fname, string lname, string _email, string pas
     password = pass;
 }
 
+void Customer::addAccount(Account *account)
+{
+	accounts.push_back(account);
+}
+
 //Sets the first name
 void Customer::setFirstName(string name)
 {
