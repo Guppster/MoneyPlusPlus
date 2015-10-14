@@ -14,7 +14,10 @@ void applyForAccount(Customer customer)
 	string name;
 	Account *account = new Account();
 
+	//Clear the screen for a cleaner interface
 	system("cls");
+
+	//Ask the user what type of account they want to make
 	cout << "1. " << "Apply for a Checking account\n";
 	cout << "2. " << "Apply for a Saving account\n";
 
@@ -29,12 +32,17 @@ void applyForAccount(Customer customer)
 		account->setType(1);
 	}
 
+	//Clear the screen for a cleaner interface
 	system("cls");
 
 	cout << "Enter name of Account\n";
 	cin >> name;
 	account->setName(name);
 
+	//Add the account to the customer
+	customer.addAccount(account);
+
+	//Notify the user that the account creation process has started and once the manager reviews his account it will be visable.
 	cout << "The account is pending and will be added to your interface when it is accepted.\n";
 	cout << "\nPress Enter To Continue...";
 	cin >> name;
@@ -68,11 +76,11 @@ void mainMenu(Customer customer)
 	else//If the customer has accounts 
 	{
 		//List all accounts
-		for (i = 0; i < accounts.size(); i++)
+		for (i = 0; i != accounts.size(); i++)
 		{
-			tempType = (accounts[i]->getType == 1) ? "Saving" : "Checking";
+			tempType = (accounts[i]->getType() == 1) ? "Saving" : "Checking";
 
-			cout << i << ". " << accounts[i]->getName << " - " << tempType << " account\n";
+			cout << i << ". " << accounts[i]->getName() << " - " << tempType << " account\n";
 			counter = i;
 		}
 
@@ -86,7 +94,7 @@ void mainMenu(Customer customer)
 
 		if (selection == (counter + 1))
 		{
-			applyforAccount(customer);
+			applyForAccount(customer);
 		}
 		else if (selection == (counter + 2))
 		{
