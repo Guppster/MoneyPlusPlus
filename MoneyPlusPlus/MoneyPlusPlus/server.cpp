@@ -82,7 +82,7 @@ void Server::deserialize()
 	vector<string> tempCustomer;
 	vector<string> tempAccounts;
 	vector<string> tempAcc;
-	Account newAccount;
+	Account *newAccount;
 	Customer* newCustomer;
 	string line;
 	string fname;
@@ -112,9 +112,13 @@ void Server::deserialize()
 
 			for (int i = 0; i != tempAccounts.size(); i++)
 			{
+				//Debugging
+				cout << tempAccounts[i] << '\n';
+
 				tempAcc = split(tempAccounts[i], ',');
 
-				newAccount = Account(atoi(tempAcc[1].c_str()), tempAcc[2], atoi(tempAcc[3].c_str()), atoi(tempAcc[4].c_str()));
+				newAccount = new Account(atoi(tempAcc[0].c_str()), tempAcc[1], atoi(tempAcc[2].c_str()), atoi(tempAcc[3].c_str()));
+				newCustomer->addAccount(newAccount);
 			}
 
 			customers.push_back(newCustomer);
@@ -127,6 +131,7 @@ void Server::deserialize()
 //write one record for each customer
 void Server::serialize()
 {
+	cout << "\nWRITTING TO FILE\n";
 	vector<Account*> accs;
 
 	ofstream list("Customers.txt");
@@ -140,7 +145,7 @@ void Server::serialize()
 
 			for (vector<Account>::size_type z = 0; z != accs.size(); z++)
 			{
-				list << accs[z]->getType() << "," << accs[z]->getName() << "," << accs[z]->getBalance() << accs[z]->getApproved() << "|";
+				list << accs[z]->getType() << "," << accs[z]->getName() << "," << accs[z]->getBalance() << "," << accs[z]->getApproved() << "|";
 			}
 		}
 		list.close();

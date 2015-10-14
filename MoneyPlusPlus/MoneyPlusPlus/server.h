@@ -22,13 +22,13 @@ public:
 	int signup(Customer*);
 	void deserialize();
 	void serialize();
+	Customer* findCustomer(int);
 
 private:
 	//Private Functionality
 	int generateID(Customer*);
 	bool idExists(int);
 	bool emailExists(string);
-	Customer* findCustomer(int);
 	vector<string> split(const string &s, char delim);
 	vector<string> splitHelper(const string &s, char delim, vector<string> &elems);
 

@@ -1,6 +1,6 @@
 #include "Source.h"
 
-void applyForAccount(Customer customer)
+void applyForAccount(Customer *customer)
 {
 	int selection = 0;
 	string name;
@@ -34,7 +34,7 @@ void applyForAccount(Customer customer)
 	account->setApproved(0);
 
 	//Add the account to the customer
-	customer.addAccount(account);
+	customer->addAccount(account);
 	server.serialize();
 
 	//Notify the user that the account creation process has started and once the manager reviews his account it will be visable.
@@ -46,14 +46,14 @@ void applyForAccount(Customer customer)
 
 }//End of applyForAccount method
 
-void openAccount(Customer customer, Account *account)
+void openAccount(Customer *customer, Account *account)
 {
 	int selection = 0;
 	int tempNum;
 
 	system("clear");
 	cout << account->getName() << " : " << account->getTypeinString() << "\n";
-	cout << "Balance: " << account->getBalance() << "\n";
+	cout << "Balance: " << account->getBalance() << "\n\n";
 
 	cout << "1. " << "Deposit Money\n";
 	cout << "2. " << "Withdraw Money\n";
@@ -79,9 +79,9 @@ void openAccount(Customer customer, Account *account)
 	}
 }//End of openAccount method
 
-void mainMenu(Customer customer)
+void mainMenu(Customer *customer)
 {
-	vector<Account*> accounts = customer.getAccounts();
+	vector<Account*> accounts = customer->getAccounts();
 	string tempApproved;
 	int tempNum;
 	int counter = 0;
@@ -89,7 +89,7 @@ void mainMenu(Customer customer)
 	int i = 0;
 
 	system("clear");
-	cout << "Welcome " << customer.getFirstName() << ".\n";
+	cout << "Welcome " << customer->getFirstName() << ".\n\n";
 
 	//If the customer has no accounts 
 	if (accounts.empty())
@@ -105,6 +105,8 @@ void mainMenu(Customer customer)
 	}
 	else//If the customer has accounts 
 	{
+		cout << "[Your Accounts]\n";
+
 		//List all accounts
 		for (i = 0; i != accounts.size(); i++)
 		{
@@ -115,7 +117,7 @@ void mainMenu(Customer customer)
 		}
 		
 		//Organizing output with a blank line
-		cout << "\n";
+		cout << "\n[Other Actions]\n";
 		i++;
 
 		cout << i++ << ". " << "Apply for an Account\n";
@@ -133,7 +135,18 @@ void mainMenu(Customer customer)
 		{
 			if(selection == (counter - j))
 			{
-				openAccount(customer, accounts[j]);
+				if (accounts[j]->getApproved() == 1)
+				{
+					openAccount(customer, accounts[j]);
+				}
+				else
+				{
+					cout << "\nThis Account is UNAPPROVED. Please wait for a manager to approve your account.\n";
+					cout << "Press Enter to Continue...";
+					cin.get();
+					cin.get();
+					mainMenu(customer);
+				}
 			}
 		}
 
@@ -159,7 +172,7 @@ void mainMenu(Customer customer)
 		}
 		else if (selection == (counter + 6))
 		{
-			//changePassword();
+			//Logout();
 		}
 
 
@@ -172,7 +185,7 @@ void login()
 	int id; 
 	string pass;
 
-	Customer tempCustomer;
+	Customer *tempCustomer = new Customer();
 	do
 	{
 		cout << "Enter your account ID: \t";
@@ -181,15 +194,16 @@ void login()
 		cout << "Enter your password: \t";
 		cin >> pass;
 
-		Customer tempCustomer (id, pass);
+		tempCustomer->setID(id);
+		tempCustomer->setPass(pass);
 
-		if (!server.auth(&tempCustomer))
+		if (!server.auth(tempCustomer))
 		{
 			cout << "Error: Invalid Login Credentials" << endl;
 		}
-	} while (!server.auth(&tempCustomer));
+	} while (!server.auth(tempCustomer));
 
-	mainMenu(tempCustomer);
+	mainMenu(server.findCustomer(id));
 	
 }//End of login method
 
@@ -202,6 +216,7 @@ void registerNew()
 	string email;
 	string pass;
 	string passconfirm;
+	Customer *tempCustomer = new Customer();
 
 	cout << "Enter your first name: \t";
 	cin >> fname;
@@ -226,9 +241,12 @@ void registerNew()
 		}
 	} while (pass != passconfirm);
 
-	Customer tempCustomer (fname, lname, email, pass);
+	tempCustomer->setFirstName(fname);
+	tempCustomer->setLastName(lname);
+	tempCustomer->setEmail(email);
+	tempCustomer->setPass(pass);
 	
-	cout << "Your ID is: \t" << server.signup(&tempCustomer) << endl;
+	cout << "Your ID is: \t" << server.signup(tempCustomer) << endl;
 	cout << "\nPress Enter To Continue...";
 	cin.get();
 	cin.get(); 
@@ -241,6 +259,7 @@ void registerNew()
 int main()
 {
 	char selection;
+	server.deserialize();
 	
 	cout << "(L)ogin or (R)egister: \t";
 	cin >> selection;
