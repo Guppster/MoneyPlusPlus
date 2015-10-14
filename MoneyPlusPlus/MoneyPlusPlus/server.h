@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <cstring>
+#include <cstdlib>
 #include <sstream>
 #include "customer.h"
 

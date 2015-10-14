@@ -1,5 +1,6 @@
 #include "server.h"
 
+
 //Checks if the id and password are valid for authentication 
 bool Server::auth(Customer* customer)
 {
@@ -44,7 +45,7 @@ Customer* Server::findCustomer(int id)
 		}
 	}
 
-	return nullptr;
+	return NULL;
 }
 
 //Traverse the array and confirm the id is contained within the array

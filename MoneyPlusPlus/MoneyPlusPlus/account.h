@@ -28,5 +28,6 @@ public:
 	int getApproved();
 	string getName();
 	int getType();
+	string getTypeinString();
 	int getBalance();
 };

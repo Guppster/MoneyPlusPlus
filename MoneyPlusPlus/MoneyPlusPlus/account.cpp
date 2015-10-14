@@ -66,6 +66,16 @@ int Account::getType()
 	return isSaving;
 }
 
+string Account::getTypeinString()
+{
+	if(isSaving == 1)
+	{
+		return "Saving";
+	}
+	
+	return "Checking";
+}
+
 int Account::getBalance()
 {
 	return balance;

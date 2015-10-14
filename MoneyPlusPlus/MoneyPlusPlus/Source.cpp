@@ -1,4 +1,4 @@
-#include "source.h"
+#include "Source.h"
 
 void applyForAccount(Customer customer)
 {
@@ -7,7 +7,7 @@ void applyForAccount(Customer customer)
 	Account *account = new Account();
 
 	//Clear the screen for a cleaner interface
-	system("cls");
+	system("clear");
 
 	//Ask the user what type of account they want to make
 	cout << "1. " << "Apply for a Checking account\n";
@@ -26,7 +26,7 @@ void applyForAccount(Customer customer)
 	}
 
 	//Clear the screen for a cleaner interface
-	system("cls");
+	system("clear");
 
 	cout << "Enter name of Account\n";
 	cin >> name;
@@ -40,21 +40,28 @@ void applyForAccount(Customer customer)
 	//Notify the user that the account creation process has started and once the manager reviews his account it will be visable.
 	cout << "The account is pending and will be added to your interface when it is accepted.\n";
 	cout << "\nPress Enter To Continue...";
-	cin.ignore();
+	cin.get();
+	cin.get(); 
 	mainMenu(customer);
 
 }//End of applyForAccount method
 
+void openAccount(Customer customer, Account *account)
+{
+	system("clear");
+	cout << account->getName() << " : " << account->getTypeinString();
+}
+
 void mainMenu(Customer customer)
 {
 	vector<Account*> accounts = customer.getAccounts();
-	string tempType;
 	string tempApproved;
+	int tempNum;
 	int counter = 0;
 	int selection = 0;
 	int i = 0;
 
-	system("cls");
+	system("clear");
 	cout << "Welcome " << customer.getFirstName() << ".\n";
 
 	//If the customer has no accounts 
@@ -75,24 +82,33 @@ void mainMenu(Customer customer)
 		for (i = 0; i != accounts.size(); i++)
 		{
 			tempApproved = (accounts[i]->getApproved() == 0) ? " - [UNAPPROVED]" : "";
-			tempType = (accounts[i]->getType() == 1) ? "Saving" : "Checking";
-
-			cout << i << ". " << accounts[i]->getName() << " - " << tempType << " account" << tempApproved << "\n";
-			counter = i;
+			tempNum = i + 1;
+			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << tempApproved << "\n";
+			counter = i + 1;
 		}
 		
 		//Organizing output with a blank line
 		cout << "\n";
+		i++;
 
 		cout << i++ << ". " << "Apply for an Account\n";
 		cout << i++ << ". " << "Transfer money between accounts\n";
 		cout << i++ << ". " << "Tranfer money to another user\n";
 		cout << i++ << ". " << "Cancel an Account\n";
 		cout << i++ << ". " << "Change your password\n";
+		cout << i++ << ". " << "Logout\n";
 
 		cout << "\nOption #: ";
 
 		cin >> selection;
+
+		for(int j = 0; j != accounts.size(); j++)
+		{
+			if(selection == (counter - j))
+			{
+				openAccount(customer, accounts[j]);
+			}
+		}
 
 		if (selection == (counter + 1))
 		{
@@ -182,7 +198,8 @@ void registerNew()
 	
 	cout << "Your ID is: \t" << server.signup(&tempCustomer) << endl;
 	cout << "\nPress Enter To Continue...";
-	cin.ignore();
+	cin.get();
+	cin.get(); 
 
 	mainMenu(tempCustomer);
 
@@ -204,7 +221,8 @@ int main()
 	{
 		registerNew();
 	}
-	cin.ignore();
+	cin.get();
+	cin.get(); 
 }//End of main method
 
 
