@@ -1,6 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include "server.h"
 
 //Checks if the id and password are valid for authentication 
@@ -92,7 +89,6 @@ void Server::deserialize()
 	string lname;
 	string email;
 	string pass;
-	bool isSaving;
 
 	ifstream list("Customers.txt");
 	if (list.is_open())
@@ -114,7 +110,7 @@ void Server::deserialize()
 			//Put retrieved data in vector for easier access
 			tempAccounts = split(line, '|');
 
-			for (int i = 0; i < tempAccounts.size(); i++)
+			for (int i = 0; i != tempAccounts.size(); i++)
 			{
 				tempAcc = split(tempAccounts[i], ',');
 
@@ -143,7 +139,7 @@ void Server::serialize()
 
 			list << customers[i]->getID() << "," << customers[i]->getFirstName() << "," << customers[i]->getLastName() << "," << customers[i]->getEmail() << "," << customers[i]->getPass() << "\n";
 
-			for (std::vector<Account>::size_type z = 0; z != accs.size(); z++)
+			for (vector<Account>::size_type z = 0; z != accs.size(); z++)
 			{
 				list << accs[z]->getType() << "," << accs[z]->getName() << "," << accs[z]->getBalance() << "|";
 			}
@@ -153,21 +149,22 @@ void Server::serialize()
 	else cout << "Error: Unable to save";
 }
 
-vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) 
+vector<string> Server::splitHelper(const string &s, char delim, vector<string> &elems)
 {
-	std::stringstream ss(s);
-	std::string item;
-	while (std::getline(ss, item, delim)) {
+	stringstream ss(s);
+	string item;
+	while (getline(ss, item, delim)) 
+	{
 		elems.push_back(item);
 	}
 	return elems;
 }
 
 
-vector<std::string> split(const std::string &s, char delim) 
+vector<string> Server::split(const string &s, char delim) 
 {
-	std::vector<std::string> elems;
-	split(s, delim, elems);
+	vector<string> elems;
+	splitHelper(s, delim, elems);
 	return elems;
 }
 
