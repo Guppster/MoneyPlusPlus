@@ -18,11 +18,11 @@ public:
 	//Public functionality
 	bool auth(Customer*);
 	int signup(Customer*);
+	void deserialize();
+	void serialize();
 
 private:
 	//Private Functionality
-	void deserialize();
-	void serialize();
 	int generateID(Customer*);
 	bool idExists(int);
 	bool emailExists(string);

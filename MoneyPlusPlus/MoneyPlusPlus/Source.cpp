@@ -1,12 +1,4 @@
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-#include "customer.h"
-#include "server.h"
-
-using namespace std;
-
-Server server;
+#include "source.h"
 
 void applyForAccount(Customer customer)
 {
@@ -21,6 +13,7 @@ void applyForAccount(Customer customer)
 	cout << "1. " << "Apply for a Checking account\n";
 	cout << "2. " << "Apply for a Saving account\n";
 
+	cout << "\nOption #: ";
 	cin >> selection;
 
 	if (selection == 1)
@@ -38,22 +31,25 @@ void applyForAccount(Customer customer)
 	cout << "Enter name of Account\n";
 	cin >> name;
 	account->setName(name);
+	account->setApproved(0);
 
 	//Add the account to the customer
 	customer.addAccount(account);
+	server.serialize();
 
 	//Notify the user that the account creation process has started and once the manager reviews his account it will be visable.
 	cout << "The account is pending and will be added to your interface when it is accepted.\n";
 	cout << "\nPress Enter To Continue...";
-	cin >> name;
+	cin.ignore();
+	mainMenu(customer);
 
 }//End of applyForAccount method
-
 
 void mainMenu(Customer customer)
 {
 	vector<Account*> accounts = customer.getAccounts();
 	string tempType;
+	string tempApproved;
 	int counter = 0;
 	int selection = 0;
 	int i = 0;
@@ -66,29 +62,35 @@ void mainMenu(Customer customer)
 	{
 		cout << "1. " << "Apply for an Account\n";
 		cout << "2. " << "Exit the Program\n";
+		cout << "\nOption #: ";
 
 		cin >> selection;
 
 		if (selection = 1) applyForAccount(customer);
-
-
+		else if (selection = 2) server.serialize();
 	}
 	else//If the customer has accounts 
 	{
 		//List all accounts
 		for (i = 0; i != accounts.size(); i++)
 		{
+			tempApproved = (accounts[i]->getApproved() == 0) ? " - [UNAPPROVED]" : "";
 			tempType = (accounts[i]->getType() == 1) ? "Saving" : "Checking";
 
-			cout << i << ". " << accounts[i]->getName() << " - " << tempType << " account\n";
+			cout << i << ". " << accounts[i]->getName() << " - " << tempType << " account" << tempApproved << "\n";
 			counter = i;
 		}
+		
+		//Organizing output with a blank line
+		cout << "\n";
 
 		cout << i++ << ". " << "Apply for an Account\n";
 		cout << i++ << ". " << "Transfer money between accounts\n";
 		cout << i++ << ". " << "Tranfer money to another user\n";
 		cout << i++ << ". " << "Cancel an Account\n";
 		cout << i++ << ". " << "Change your password\n";
+
+		cout << "\nOption #: ";
 
 		cin >> selection;
 
@@ -180,7 +182,7 @@ void registerNew()
 	
 	cout << "Your ID is: \t" << server.signup(&tempCustomer) << endl;
 	cout << "\nPress Enter To Continue...";
-	cin >> fname;
+	cin.ignore();
 
 	mainMenu(tempCustomer);
 
@@ -202,7 +204,7 @@ int main()
 	{
 		registerNew();
 	}
-	cin >> selection;
+	cin.ignore();
 }//End of main method
 
 
