@@ -32,6 +32,7 @@ void applyForAccount(Customer *customer)
 	cin >> name;
 	account->setName(name);
 	account->setApproved(0);
+	account->setBalance(0);
 
 	//Add the account to the customer
 	customer->addAccount(account);
@@ -43,6 +44,51 @@ void applyForAccount(Customer *customer)
 	cin.get();
 	cin.get(); 
 	mainMenu(customer);
+
+}//End of applyForAccount method
+
+void applyForAccountforManager(Customer *customer, Customer *managerCustomer)
+{
+	int selection = 0;
+	string name;
+	Account *account = new Account();
+
+	//Clear the screen for a cleaner interface
+	system("clear");
+
+	//Ask the user what type of account they want to make
+	cout << "1. " << "Apply for a Checking account\n";
+	cout << "2. " << "Apply for a Saving account\n";
+
+	cout << "\nOption #: ";
+	cin >> selection;
+
+	if (selection == 1)
+	{
+		account->setType(0);
+	}
+	else
+	{
+		account->setType(1);
+	}
+
+	//Clear the screen for a cleaner interface
+	system("clear");
+
+	cout << "Enter name of Account\n";
+	cin >> name;
+	account->setName(name);
+	account->setApproved(1);
+	account->setBalance(0);
+
+	//Add the account to the customer
+	customer->addAccount(account);
+	server.serialize();
+
+	cout << "\nPress Enter To Continue...";
+	cin.get();
+	cin.get();
+	mainMenu(managerCustomer);
 
 }//End of applyForAccount method
 
@@ -128,6 +174,7 @@ void mainMenu(Customer *customer)
 			cout << i++ << ". " << "Cancel an Account\n";
 			cout << i++ << ". " << "Change your password\n";
 			cout << i++ << ". " << "Logout\n";
+			cout << i++ << ". " << "Exit the Program\n";
 
 			cout << "\nOption #: ";
 
@@ -170,7 +217,13 @@ void mainMenu(Customer *customer)
 			}
 			else if (selection == (counter + 5))
 			{
-				//changePassword();
+				changeYourPassword(customer);
+			}
+			else if (selection == (counter + 6))
+			{
+				server.serialize();
+				system("clear");
+				main();
 			}
 			else if (selection == (counter + 6))
 			{
@@ -200,7 +253,7 @@ void mainMenu(Customer *customer)
 		else if (selection == 2)
 		{
 			system("clear");
-			registerNewFromManager(customer);
+			applyForAccountforManager(registerNewFromManager(), customer);
 		}
 		else if (selection == 3)
 		{
@@ -208,7 +261,8 @@ void mainMenu(Customer *customer)
 		}
 		else if (selection == 4)
 		{
-			//cancelAccount();
+			system("clear");
+			changeYourPassword(customer);
 		}
 		else if (selection ==  5)
 		{
@@ -222,6 +276,31 @@ void mainMenu(Customer *customer)
 		}
 	}
 }//End of main menu method
+
+/* Allows a user to change their password*/
+void changeYourPassword(Customer *customer)
+{
+	string tempPass;
+
+	do
+	{
+		cout << "Enter your current password: ";
+		cin >> tempPass;
+	} while (tempPass.compare(customer->getPass()));
+
+	cout << "Enter your new password: ";
+	cin >> tempPass;
+
+	customer->setPass(tempPass);
+	server.serialize();
+
+	cout << "Your Password has been Changed.\n";
+	cout << "Press Enter to Continue...";
+	cin.get();
+	cin.get();
+
+	mainMenu(customer);
+}
 
 void viewAwaitingApproval(Customer *customer)
 {
@@ -255,10 +334,6 @@ void viewAwaitingApproval(Customer *customer)
 				else if (selection.compare("N") || selection.compare("n"))
 				{
 					accs[i]->setApproved(0);
-				}
-				else
-				{
-					
 				}
 			}
 		}
@@ -329,7 +404,7 @@ void login()
 
 		if (!server.auth(tempCustomer))
 		{
-			cout << "Error: Invalid Login Credentials" << endl;
+			cout << "\nError: Invalid Login Credentials\n" << endl;
 		}
 	} while (!server.auth(tempCustomer));
 
@@ -385,7 +460,7 @@ void registerNew()
 
 }//End of registerNew method\
 
-void registerNewFromManager(Customer *customer)
+Customer* registerNewFromManager()
 {
 	string fname;
 	string lname;
@@ -427,7 +502,7 @@ void registerNewFromManager(Customer *customer)
 	cin.get();
 	cin.get();
 
-	mainMenu(customer);
+	return tempCustomer;
 }
 
 /*The main program flow*/
@@ -447,8 +522,6 @@ int main()
 	{
 		registerNew();
 	}
-	cin.get();
-	cin.get(); 
 }//End of main method
 
 
