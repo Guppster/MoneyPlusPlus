@@ -180,9 +180,134 @@ void mainMenu(Customer *customer)
 	}
 	else if (customer->getRole() == 1)
 	{
-		cout << "You are a Manager";
+		cout << "You are a Manager\n";
+
+		cout << "1. " << "View accounts awaiting approval\n";
+		cout << "2. " << "Create new Customer\n";
+		cout << "3. " << "Delete Account\n";
+		cout << "4. " << "Change your password\n";
+		cout << "5. " << "Logout\n";
+		cout << "6. " << "Exit Program\n";
+
+		cout << "\nOption #: ";
+
+		cin >> selection;
+
+		if (selection == 1)
+		{
+			viewAwaitingApproval(customer);
+		}
+		else if (selection == 2)
+		{
+			system("clear");
+			registerNewFromManager(customer);
+		}
+		else if (selection == 3)
+		{
+			managerDeleteAccount(customer);
+		}
+		else if (selection == 4)
+		{
+			//cancelAccount();
+		}
+		else if (selection ==  5)
+		{
+			system("clear");
+			server.serialize();
+			main();
+		}
+		else if (selection == 6)
+		{
+			server.serialize();
+		}
 	}
 }//End of main menu method
+
+void viewAwaitingApproval(Customer *customer)
+{
+
+	string tempApproved;
+	int tempNum = 0;
+	string selection;
+
+	system("clear");
+
+	for (int j = 0; j != server.customers.size(); j++)
+	{
+		Customer *tempCustomer = server.customers[j];
+		vector<Account*> accs = tempCustomer->getAccounts();
+
+		for (int i = 0; i != accs.size(); i++)
+		{
+			if (accs[i]->getApproved() == 0)
+			{
+				system("clear");
+				tempNum = tempNum + 1;
+				cout << tempNum << ". " << tempCustomer->firstName << " - " << accs[i]->getName() << " - " << accs[i]->getTypeinString() << " account" << "\n";
+
+				cout << "\n Would you like to approve this account? Y/N (Enter any other input to go back): ";
+				cin >> selection;
+
+				if (selection.compare("Y") || selection.compare("y"))
+				{
+					accs[i]->setApproved(1);
+				}
+				else if (selection.compare("N") || selection.compare("n"))
+				{
+					accs[i]->setApproved(0);
+				}
+				else
+				{
+					
+				}
+			}
+		}
+	}
+	mainMenu(customer);
+}
+
+void managerDeleteAccount(Customer *customer)
+{
+	int id;
+	int tempNum;
+	int selection;
+	string tempApproved;
+	int counter;
+
+	system("clear");
+	cout << "Enter the ID of the user you wish to delete an account from: ";
+	cin >> id;
+
+	Customer *delCustomer = server.findCustomer(id);
+
+	vector<Account*> accs = delCustomer->getAccounts();
+	
+	if (accs.size() != 0)
+	{
+		for (int i = 0; i < accs.size(); i++)
+		{
+			tempApproved = (accs[i]->getApproved() == 0) ? " - [UNAPPROVED]" : "";
+			tempNum = i + 1;
+			cout << tempNum << ". " << accs[i]->getName() << " - " << accs[i]->getTypeinString() << " account" << tempApproved << "\n";
+			counter = i + 1;
+		}
+
+		cout << "Enter which account # you wish to delete (Funds will be lost): ";
+		cin >> selection;
+
+		delCustomer->deleteAccount(accs[counter - 1]);
+		server.serialize();
+	}
+	else
+	{
+		cout << "\nNo accounts found for this user.\n";
+		cout << "Press Enter to Continue...";
+		cin.get();
+		cin.get();
+	}
+	
+	mainMenu(customer);
+}
 
 /* This method controls the login prompt flow */
 void login()
@@ -258,7 +383,52 @@ void registerNew()
 
 	mainMenu(tempCustomer);
 
-}//End of registerNew method
+}//End of registerNew method\
+
+void registerNewFromManager(Customer *customer)
+{
+	string fname;
+	string lname;
+	string email;
+	string pass;
+	string passconfirm;
+	Customer *tempCustomer = new Customer();
+
+	cout << "Enter your first name: \t";
+	cin >> fname;
+
+	cout << "Enter your last name: \t";
+	cin >> lname;
+
+	cout << "Enter your email: \t";
+	cin >> email;
+
+	do
+	{
+		cout << "Enter your password: \t";
+		cin >> pass;
+
+		cout << "Confirm your password: \t";
+		cin >> passconfirm;
+
+		if (pass != passconfirm)
+		{
+			cout << "Error: Passwords do not match, try again" << endl;
+		}
+	} while (pass != passconfirm);
+
+	tempCustomer->setFirstName(fname);
+	tempCustomer->setLastName(lname);
+	tempCustomer->setEmail(email);
+	tempCustomer->setPass(pass);
+
+	cout << "Your ID is: \t" << server.signup(tempCustomer) << endl;
+	cout << "\nPress Enter To Continue...";
+	cin.get();
+	cin.get();
+
+	mainMenu(customer);
+}
 
 /*The main program flow*/
 int main()

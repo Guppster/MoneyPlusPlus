@@ -33,11 +33,11 @@ public:
 	void setRole(int);
 
 	vector<Account*> getAccounts();
+	void deleteAccount(Account*);
 	string getFirstName();
 	string getLastName();
 	string getEmail();
 	string getPass();
 	int getID();
 	int getRole();
-	
 };

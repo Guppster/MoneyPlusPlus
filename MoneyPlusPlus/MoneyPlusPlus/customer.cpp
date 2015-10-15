@@ -38,6 +38,21 @@ void Customer::addAccount(Account *account)
 	accounts.push_back(account);
 }
 
+void Customer::deleteAccount(Account *account)
+{
+	int element = 0;
+	for (int i = 0; i != accounts.size(); i++)
+	{
+		if (accounts[i]->getName().compare(account->getName()))
+		{
+			cout << "FOUND";
+			element = i;
+			break;
+		}
+	}
+	accounts.erase(accounts.begin() + element);
+}
+
 //Sets the first name
 void Customer::setFirstName(string name)
 {
