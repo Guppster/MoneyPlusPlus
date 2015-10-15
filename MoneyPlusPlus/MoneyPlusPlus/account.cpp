@@ -38,22 +38,29 @@ void Account::withdraw(int amount)
 		return;
 	}
 
-	if ((balance - amount) < 1000)
+	if (isSaving = 0)
 	{
-		cout << "\n WARNING: Your balance will drop below $1000 and we will charge $2.00 on every withdraw if this happens";
-		cout << "\n Are you sure you wish to continue? (Y/N)";
-
-		cin >> input;
-
-		if (input.compare("Y") || input.compare("y"))
+		if ((balance - amount) < 1000)
 		{
-			balance -= amount;
-			balance -= 2;
+			cout << "\n WARNING: Your balance will drop below $1000 and we will charge $2.00 on every withdraw if this happens";
+			cout << "\n Are you sure you wish to continue? (Y/N)";
+
+			cin >> input;
+
+			if (input.compare("Y") || input.compare("y"))
+			{
+				balance -= amount;
+				balance -= 2;
+			}
+			else if (input.compare("N") || input.compare("n"))
+			{
+				return;
+			}
 		}
-		else if (input.compare("N") || input.compare("n"))
-		{
-			return; 
-		}
+	}
+	else
+	{
+		balance -= amount;
 	}
 
 }

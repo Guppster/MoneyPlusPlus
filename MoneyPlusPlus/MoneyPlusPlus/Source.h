@@ -11,7 +11,9 @@ using namespace std;
 Server server;
 
 void mainMenu(Customer *customer);
+void transferBetweenAccounts(Customer *customer);
 void applyForAccount(Customer *customer);
+void cancelOwnAccount(Customer *customer);
 void applyForAccountforManager(Customer *customer, Customer *managerCustomer);
 Customer* registerNewFromManager();
 void managerDeleteAccount(Customer *);

@@ -170,7 +170,6 @@ void mainMenu(Customer *customer)
 
 			cout << i++ << ". " << "Apply for an Account\n";
 			cout << i++ << ". " << "Transfer money between accounts\n";
-			cout << i++ << ". " << "Tranfer money to another user\n";
 			cout << i++ << ". " << "Cancel an Account\n";
 			cout << i++ << ". " << "Change your password\n";
 			cout << i++ << ". " << "Logout\n";
@@ -205,21 +204,17 @@ void mainMenu(Customer *customer)
 			}
 			else if (selection == (counter + 2))
 			{
-				//transferBetweenAccounts();
+				transferBetweenAccounts(customer);
 			}
 			else if (selection == (counter + 3))
 			{
-				//transferToAnotherUser();
+				cancelOwnAccount(customer);
 			}
 			else if (selection == (counter + 4))
 			{
-				//cancelAccount();
-			}
-			else if (selection == (counter + 5))
-			{
 				changeYourPassword(customer);
 			}
-			else if (selection == (counter + 6))
+			else if (selection == (counter + 5))
 			{
 				server.serialize();
 				system("clear");
@@ -276,6 +271,73 @@ void mainMenu(Customer *customer)
 		}
 	}
 }//End of main menu method
+
+void cancelOwnAccount(Customer *customer)
+{
+
+}
+
+void transferBetweenAccounts(Customer *customer)
+{
+	system("clear");
+	vector<Account*> accounts = customer->getAccounts();
+	int tempNum;
+	int i;
+
+	string input;
+
+	int from;
+	int to;
+	int howmuch;
+
+	//List all accounts
+	for (i = 0; i != accounts.size(); i++)
+	{
+		if (accounts[i]->getApproved() == 1)
+		{
+			tempNum = i + 1;
+			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << "\n";
+
+			cout << "Would you like to send funds from this account? (Y/N)";
+			cin >> input;
+
+			if (input.compare("Y") || input.compare("y"))
+			{
+				from = i;
+				break;
+			}
+			system("clear");
+		}
+	}
+
+	//List all accounts
+	for (i = 0; i != accounts.size(); i++)
+	{
+		if (accounts[i]->getApproved() == 1)
+		{
+			tempNum = i + 1;
+			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << "\n";
+
+			cout << "Would you like to send funds to this account? (Y/N)";
+			cin >> input;
+
+			if (input.compare("Y") || input.compare("y"))
+			{
+				to = i;
+				break;
+			}
+			system("clear");
+		}
+	}
+
+	cout << "How much would you like to send?\n";
+	cin >> howmuch;
+
+	accounts[from]->withdraw(howmuch);
+	accounts[to]->deposit(howmuch);
+
+	mainMenu(customer);
+}
 
 /* Allows a user to change their password*/
 void changeYourPassword(Customer *customer)
