@@ -28,7 +28,34 @@ void Account::deposit(int amount)
 
 void Account::withdraw(int amount)
 {
-	balance -= amount;
+	string input;
+	if ((balance - amount) < 0)
+	{
+		cout << "\n WARNING: This operation is now allowed because it would make your account have a negative balance";
+		cout << "\nPress Enter to Continue...";
+		cin.get();
+		cin.get();
+		return;
+	}
+
+	if ((balance - amount) < 1000)
+	{
+		cout << "\n WARNING: Your balance will drop below $1000 and we will charge $2.00 on every withdraw if this happens";
+		cout << "\n Are you sure you wish to continue? (Y/N)";
+
+		cin >> input;
+
+		if (input.compare("Y") || input.compare("y"))
+		{
+			balance -= amount;
+			balance -= 2;
+		}
+		else if (input.compare("N") || input.compare("n"))
+		{
+			return; 
+		}
+	}
+
 }
 
 void Account::setName(string _name)
