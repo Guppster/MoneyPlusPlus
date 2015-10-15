@@ -19,6 +19,11 @@ bool Server::auth(Customer* customer)
 	}
 }
 
+void Server::logData(Customer* customer)
+{
+
+}
+
 //Returns ID if successfull, Returns -1 if unsuccessful
 int Server::signup(Customer* customer)
 {

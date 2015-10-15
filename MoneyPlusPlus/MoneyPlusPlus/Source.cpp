@@ -103,6 +103,7 @@ void openAccount(Customer *customer, Account *account)
 
 	cout << "1. " << "Deposit Money\n";
 	cout << "2. " << "Withdraw Money\n";
+	cout << "3. " << "Go Back\n";
 	cout << "\nOption #: ";
 
 	cin >> selection;
@@ -113,6 +114,7 @@ void openAccount(Customer *customer, Account *account)
 		cout << "How much would you like to deposit: ";
 		cin >> tempNum;
 		account->deposit(tempNum);
+		server.serialize();
 		openAccount(customer, account);
 	}
 	else if(selection == 2)
@@ -121,7 +123,12 @@ void openAccount(Customer *customer, Account *account)
 		cout << "How much would you like to withdraw: ";
 		cin >> tempNum;
 		account->withdraw(tempNum);
+		server.serialize();
 		openAccount(customer, account);
+	}
+	else
+	{
+		mainMenu(customer);
 	}
 }//End of openAccount method
 
@@ -270,14 +277,36 @@ void mainMenu(Customer *customer)
 			server.serialize();
 		}
 	}
+	else if (customer->getRole() == 2)
+	{
+		cout << "You are a Maintenance person\n";
+
+		cout << "1. " << "Toggle execution trace\n";
+		cout << "5. " << "Logout\n";
+		cout << "6. " << "Exit Program\n";
+
+		cout << "\nOption #: ";
+
+		cin >> selection;
+
+		if (selection == 1)
+		{
+			viewAwaitingApproval(customer);
+		}
+		else if (selection == 2)
+		{
+			system("clear");
+			server.serialize();
+			main();
+		}
+		else if (selection == 3)
+		{
+			server.serialize();
+		}
+	}
 }//End of main menu method
 
 void cancelOwnAccount(Customer *customer)
-{
-
-}
-
-void transferBetweenAccounts(Customer *customer)
 {
 	system("clear");
 	vector<Account*> accounts = customer->getAccounts();
@@ -286,10 +315,6 @@ void transferBetweenAccounts(Customer *customer)
 
 	string input;
 
-	int from;
-	int to;
-	int howmuch;
-
 	//List all accounts
 	for (i = 0; i != accounts.size(); i++)
 	{
@@ -298,7 +323,40 @@ void transferBetweenAccounts(Customer *customer)
 			tempNum = i + 1;
 			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << "\n";
 
-			cout << "Would you like to send funds from this account? (Y/N)";
+			cout << "Would you like to Cancel this account (ALL FUNDS WILL BE DESTORYED)? (Y/N)";
+			cin >> input;
+
+			if (input.compare("Y") || input.compare("y"))
+			{
+				customer->deleteAccount(accounts[i]);
+				break;
+			}
+			system("clear");
+		}
+	}
+	
+	mainMenu(customer);
+}
+
+void transferBetweenAccounts(Customer *customer)
+{
+	system("clear");
+	vector<Account*> accounts = customer->getAccounts();
+
+	string input;
+
+	int from;
+	int to;
+	int howmuch;
+
+	//List all accounts
+	for (int i = 0; i != accounts.size(); i++)
+	{
+		if (accounts[i]->getApproved() == 1)
+		{
+			cout  << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << endl;
+
+			cout << "Would you like to send funds from this account? (Y/N)\n";
 			cin >> input;
 
 			if (input.compare("Y") || input.compare("y"))
@@ -306,17 +364,20 @@ void transferBetweenAccounts(Customer *customer)
 				from = i;
 				break;
 			}
-			system("clear");
+			else if(input.compare("N") || input.compare("n"))
+			{
+				cout << "OKAY";
+			}
+
 		}
 	}
 
 	//List all accounts
-	for (i = 0; i != accounts.size(); i++)
+	for (int i = 0; i != accounts.size(); i++)
 	{
 		if (accounts[i]->getApproved() == 1)
 		{
-			tempNum = i + 1;
-			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << "\n";
+			cout  << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << endl;
 
 			cout << "Would you like to send funds to this account? (Y/N)";
 			cin >> input;
@@ -326,7 +387,10 @@ void transferBetweenAccounts(Customer *customer)
 				to = i;
 				break;
 			}
-			system("clear");
+			else if(input.compare("N") || input.compare("n"))
+			{
+				cout << "OKAY";
+			}
 		}
 	}
 

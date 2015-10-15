@@ -23,6 +23,7 @@ public:
 	void deserialize();
 	void serialize();
 	Customer* findCustomer(int);
+	void logData(Customer*)
 
 private:
 	//Private Functionality
