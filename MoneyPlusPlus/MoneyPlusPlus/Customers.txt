@@ -1,5 +1,5 @@
 5,Gurp,Singh,guppst3r@gmail.com,21,0
-0,NewChequesYo,0,1|1,saveit,50000,1|1,dsfkjshdfisdufhsdfh,40000,1|
+0,NewChequesYo,298,1|1,saveit,50000,1|0,dsfkjshdfisdufhsdfh,30048,1|0,newaccount,0,0|
 6,Branny,Stew,branstew@gmail.com,123,0
 0,MoreMoney,0,1|
 7,Prof,Teacher,uwo.ca,1234,0

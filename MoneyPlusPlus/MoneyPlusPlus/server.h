@@ -16,6 +16,10 @@ public:
 	//Number of customers in system. (testing limit set to 100)
 	vector<Customer*> customers;
 	Customer* found;
+	bool trace = false;
+
+	bool getTrace();
+	void setTrace(bool);
 
 	//Public functionality
 	bool auth(Customer*);
@@ -23,7 +27,8 @@ public:
 	void deserialize();
 	void serialize();
 	Customer* findCustomer(int);
-	void logData(Customer*)
+	void logData(Customer*, int data);
+	void logData(Customer*, string data);
 
 private:
 	//Private Functionality

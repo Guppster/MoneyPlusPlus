@@ -38,8 +38,6 @@ void Account::withdraw(int amount)
 		return;
 	}
 
-	if (isSaving = 0)
-	{
 		if ((balance - amount) < 1000)
 		{
 			cout << "\n WARNING: Your balance will drop below $1000 and we will charge $2.00 on every withdraw if this happens";
@@ -57,11 +55,7 @@ void Account::withdraw(int amount)
 				return;
 			}
 		}
-	}
-	else
-	{
-		balance -= amount;
-	}
+
 
 }
 

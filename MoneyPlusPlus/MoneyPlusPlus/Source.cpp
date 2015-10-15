@@ -15,6 +15,7 @@ void applyForAccount(Customer *customer)
 
 	cout << "\nOption #: ";
 	cin >> selection;
+	server.logData(customer, selection);
 
 	if (selection == 1)
 	{
@@ -30,6 +31,7 @@ void applyForAccount(Customer *customer)
 
 	cout << "Enter name of Account\n";
 	cin >> name;
+	server.logData(customer, name);
 	account->setName(name);
 	account->setApproved(0);
 	account->setBalance(0);
@@ -62,6 +64,7 @@ void applyForAccountforManager(Customer *customer, Customer *managerCustomer)
 
 	cout << "\nOption #: ";
 	cin >> selection;
+	server.logData(customer, selection);
 
 	if (selection == 1)
 	{
@@ -77,6 +80,7 @@ void applyForAccountforManager(Customer *customer, Customer *managerCustomer)
 
 	cout << "Enter name of Account\n";
 	cin >> name;
+	server.logData(customer, name);
 	account->setName(name);
 	account->setApproved(1);
 	account->setBalance(0);
@@ -107,6 +111,7 @@ void openAccount(Customer *customer, Account *account)
 	cout << "\nOption #: ";
 
 	cin >> selection;
+	server.logData(customer, selection);
 
 	if(selection == 1)
 	{
@@ -114,6 +119,7 @@ void openAccount(Customer *customer, Account *account)
 		cout << "How much would you like to deposit: ";
 		cin >> tempNum;
 		account->deposit(tempNum);
+		server.logData(customer, tempNum);
 		server.serialize();
 		openAccount(customer, account);
 	}
@@ -122,6 +128,7 @@ void openAccount(Customer *customer, Account *account)
 		system("clear");
 		cout << "How much would you like to withdraw: ";
 		cin >> tempNum;
+		server.logData(customer, tempNum);
 		account->withdraw(tempNum);
 		server.serialize();
 		openAccount(customer, account);
@@ -154,6 +161,7 @@ void mainMenu(Customer *customer)
 			cout << "\nOption #: ";
 
 			cin >> selection;
+			server.logData(customer, selection);
 
 			if (selection = 1) applyForAccount(customer);
 			else if (selection = 2) server.serialize();
@@ -185,6 +193,8 @@ void mainMenu(Customer *customer)
 			cout << "\nOption #: ";
 
 			cin >> selection;
+
+			server.logData(customer, selection);
 
 			for (int j = 0; j != accounts.size(); j++)
 			{
@@ -248,6 +258,8 @@ void mainMenu(Customer *customer)
 
 		cin >> selection;
 
+		server.logData(customer, selection);
+
 		if (selection == 1)
 		{
 			viewAwaitingApproval(customer);
@@ -289,9 +301,25 @@ void mainMenu(Customer *customer)
 
 		cin >> selection;
 
+		server.logData(customer, selection);
+
 		if (selection == 1)
 		{
-			viewAwaitingApproval(customer);
+			if (server.getTrace())
+			{
+				server.setTrace(false);
+				cout << "\nTrace Disabled. Hit Enter\n";
+				cin.get();
+				cin.get();
+			}
+			else
+			{
+				server.setTrace(true);
+				cout << "\nTrace Enabled. Hit Enter\n";
+				cin.get();
+				cin.get();
+			}
+			mainMenu(customer);
 		}
 		else if (selection == 2)
 		{
@@ -325,6 +353,7 @@ void cancelOwnAccount(Customer *customer)
 
 			cout << "Would you like to Cancel this account (ALL FUNDS WILL BE DESTORYED)? (Y/N)";
 			cin >> input;
+			server.logData(customer, input);
 
 			if (input.compare("Y") || input.compare("y"))
 			{
@@ -358,6 +387,7 @@ void transferBetweenAccounts(Customer *customer)
 
 			cout << "Would you like to send funds from this account? (Y/N)\n";
 			cin >> input;
+			server.logData(customer, input);
 
 			if (input.compare("Y") || input.compare("y"))
 			{
@@ -381,6 +411,7 @@ void transferBetweenAccounts(Customer *customer)
 
 			cout << "Would you like to send funds to this account? (Y/N)";
 			cin >> input;
+			server.logData(customer, input);
 
 			if (input.compare("Y") || input.compare("y"))
 			{
@@ -396,6 +427,7 @@ void transferBetweenAccounts(Customer *customer)
 
 	cout << "How much would you like to send?\n";
 	cin >> howmuch;
+	server.logData(customer, howmuch);
 
 	accounts[from]->withdraw(howmuch);
 	accounts[to]->deposit(howmuch);
@@ -412,10 +444,12 @@ void changeYourPassword(Customer *customer)
 	{
 		cout << "Enter your current password: ";
 		cin >> tempPass;
+		server.logData(customer, tempPass);
 	} while (tempPass.compare(customer->getPass()));
 
 	cout << "Enter your new password: ";
 	cin >> tempPass;
+	server.logData(customer, tempPass);
 
 	customer->setPass(tempPass);
 	server.serialize();
@@ -452,6 +486,7 @@ void viewAwaitingApproval(Customer *customer)
 
 				cout << "\n Would you like to approve this account? Y/N (Enter any other input to go back): ";
 				cin >> selection;
+				server.logData(customer, selection);
 
 				if (selection.compare("Y") || selection.compare("y"))
 				{
@@ -478,6 +513,7 @@ void managerDeleteAccount(Customer *customer)
 	system("clear");
 	cout << "Enter the ID of the user you wish to delete an account from: ";
 	cin >> id;
+	server.logData(customer, id);
 
 	Customer *delCustomer = server.findCustomer(id);
 
@@ -495,6 +531,7 @@ void managerDeleteAccount(Customer *customer)
 
 		cout << "Enter which account # you wish to delete (Funds will be lost): ";
 		cin >> selection;
+		server.logData(customer, selection);
 
 		delCustomer->deleteAccount(accs[counter - 1]);
 		server.serialize();
@@ -521,9 +558,11 @@ void login()
 	{
 		cout << "Enter your account ID: \t";
 		cin >> id;
+		server.logData(tempCustomer, id);
 
 		cout << "Enter your password: \t";
 		cin >> pass;
+		server.logData(tempCustomer, pass);
 
 		tempCustomer->setID(id);
 		tempCustomer->setPass(pass);
@@ -551,20 +590,25 @@ void registerNew()
 
 	cout << "Enter your first name: \t";
 	cin >> fname;
+	server.logData(tempCustomer, fname);
 
 	cout << "Enter your last name: \t";
 	cin >> lname;
+	server.logData(tempCustomer, lname);
 
 	cout << "Enter your email: \t";
 	cin >> email;
+	server.logData(tempCustomer, email);
 
 	do
 	{
 		cout << "Enter your password: \t";
 		cin >> pass;
+		server.logData(tempCustomer, pass);
 
 		cout << "Confirm your password: \t";
 		cin >> passconfirm;
+		server.logData(tempCustomer, passconfirm);
 
 		if (pass != passconfirm)
 		{
@@ -597,20 +641,25 @@ Customer* registerNewFromManager()
 
 	cout << "Enter your first name: \t";
 	cin >> fname;
+	server.logData(tempCustomer, fname);
 
 	cout << "Enter your last name: \t";
 	cin >> lname;
+	server.logData(tempCustomer, lname);
 
 	cout << "Enter your email: \t";
 	cin >> email;
+	server.logData(tempCustomer, email);
 
 	do
 	{
 		cout << "Enter your password: \t";
 		cin >> pass;
+		server.logData(tempCustomer, pass);
 
 		cout << "Confirm your password: \t";
 		cin >> passconfirm;
+		server.logData(tempCustomer, passconfirm);
 
 		if (pass != passconfirm)
 		{

@@ -19,9 +19,44 @@ bool Server::auth(Customer* customer)
 	}
 }
 
-void Server::logData(Customer* customer)
+bool Server::getTrace()
 {
+	return trace;
+}
 
+void Server::setTrace(bool trace_)
+{
+	trace = trace_;
+}
+
+void Server::logData(Customer* customer, int data)
+{
+	if (trace)
+	{
+		ofstream list("log.txt", ios::app);
+		time_t currentTime;
+		//Time function will only work on windows
+		//currentTime = chrono::system_clock::to_time_t(chrono::system_clock::now());
+		// ctime(&currentTime)
+		list << "ID: " << customer->getID() << ", Option Entered: " << data << endl;
+
+		list.close();
+	}
+}
+
+void Server::logData(Customer* customer, string data)
+{
+	if (trace)
+	{
+		ofstream list("log.txt", ios::app);
+		time_t currentTime;
+		//Time function will only work on windows
+		//currentTime = chrono::system_clock::to_time_t(chrono::system_clock::now());
+		// ctime(&currentTime)
+		list << "ID: " << customer->getID() << ", Option Entered: " << data << endl;
+
+		list.close();
+	}
 }
 
 //Returns ID if successfull, Returns -1 if unsuccessful
