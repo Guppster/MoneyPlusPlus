@@ -250,9 +250,11 @@ void mainMenu(Customer *customer)
 		cout << "1. " << "View accounts awaiting approval\n";
 		cout << "2. " << "Create new Customer\n";
 		cout << "3. " << "Delete Account\n";
-		cout << "4. " << "Change your password\n";
-		cout << "5. " << "Logout\n";
-		cout << "6. " << "Exit Program\n";
+		cout << "4. " << "View Accounts for A Customer\n";
+		cout << "5. " << "View All Accounts\n";
+		cout << "6. " << "Change your password\n";
+		cout << "7. " << "Logout\n";
+		cout << "8. " << "Exit Program\n";
 
 		cout << "\nOption #: ";
 
@@ -275,16 +277,24 @@ void mainMenu(Customer *customer)
 		}
 		else if (selection == 4)
 		{
+			viewCustomerAccount(customer);
+		}
+		else if (selection == 5)
+		{
+			viewAllAccounts(customer);
+		}
+		else if (selection == 6)
+		{
 			system("clear");
 			changeYourPassword(customer);
 		}
-		else if (selection ==  5)
+		else if (selection == 7)
 		{
 			system("clear");
 			server.serialize();
 			main();
 		}
-		else if (selection == 6)
+		else if (selection == 8)
 		{
 			server.serialize();
 		}
@@ -333,6 +343,84 @@ void mainMenu(Customer *customer)
 		}
 	}
 }//End of main menu method
+
+void viewCustomerAccount(Customer *customer)
+{
+	int id;
+	int tempNum;
+	int selection;
+	string tempApproved;
+	int counter;
+
+	system("clear");
+	cout << "Enter the ID of the user you wish to view: ";
+	cin >> id;
+	server.logData(customer, id);
+
+	Customer *delCustomer = server.findCustomer(id);
+
+	vector<Account*> accs = delCustomer->getAccounts();
+
+	if (accs.size() != 0)
+	{
+		for (int i = 0; i < accs.size(); i++)
+		{
+			tempApproved = (accs[i]->getApproved() == 0) ? " - [UNAPPROVED]" : "";
+			tempNum = i + 1;
+			cout << tempNum << ". " << accs[i]->getName() << " - " << accs[i]->getTypeinString() << " account" << tempApproved << " - Balance: $" << accs[i]->getBalance() << endl;
+			counter = i + 1;
+		}
+
+		cout << "Press Enter to Continue...";
+		cin.get();
+		cin.get();
+	}
+	else
+	{
+		cout << "\nNo accounts found for this user.\n";
+		cout << "Press Enter to Continue...";
+		cin.get();
+		cin.get();
+	}
+	mainMenu(customer);
+}
+
+void viewAllAccounts(Customer *customer)
+{
+	int id;
+	int tempNum;
+	int selection;
+	string tempApproved;
+	int counter;
+
+	system("clear");
+
+	vector<Customer*> customers = server.customers;
+
+	for (int j = 0; j != customers.size(); j++)
+	{
+		vector<Account*> accs = customers[j]->getAccounts();
+
+		if (accs.size() != 0)
+		{
+			for (int i = 0; i < accs.size(); i++)
+			{
+				tempApproved = (accs[i]->getApproved() == 0) ? " - [UNAPPROVED]" : "";
+				tempNum = i + 1;
+				cout << tempNum << ". " << accs[i]->getName() << " - " << accs[i]->getTypeinString() << " account" << tempApproved << " - Balance: $" << accs[i]->getBalance() << endl;
+				counter = i + 1;
+			}
+
+			cout << endl;
+		}
+	}
+
+	cout << "\nPress Enter to Continue...";
+	cin.get();
+	cin.get();
+	
+	mainMenu(customer);
+}
 
 void cancelOwnAccount(Customer *customer)
 {

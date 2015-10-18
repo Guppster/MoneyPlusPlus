@@ -1,4 +1,4 @@
 1,Admin,Singh,Admin@gmail.com,21,1
 2,Admin,Singh,Admin@gmail.com,21,2
 5,Gurpreet,Singh,gs@uwo.ca,1,0
-0,HEOLLO,1480,1|1,NEW,500000,1|
+0,HEOLLO,1480,1|
