@@ -118,6 +118,7 @@ bool Server::emailExists(string email)
 //read file and store all records as customers
 void Server::deserialize()
 {
+	customers.clear();
 	vector<string> tempCustomer;
 	vector<string> tempAccounts;
 	vector<string> tempAcc;

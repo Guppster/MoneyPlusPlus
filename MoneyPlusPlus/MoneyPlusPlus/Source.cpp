@@ -456,7 +456,6 @@ void changeYourPassword(Customer *customer)
 
 void viewAwaitingApproval(Customer *customer)
 {
-
 	string tempApproved;
 	int tempNum = 0;
 	string selection;
