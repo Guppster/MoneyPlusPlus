@@ -336,34 +336,32 @@ void mainMenu(Customer *customer)
 
 void cancelOwnAccount(Customer *customer)
 {
-	system("clear");
-	vector<Account*> accounts = customer->getAccounts();
+	int selection;
 	int tempNum;
 	int i;
+	vector<Account*> accounts = customer->getAccounts();
 
-	string input;
+	system("clear");
 
 	//List all accounts
 	for (i = 0; i != accounts.size(); i++)
 	{
-		if (accounts[i]->getApproved() == 1)
+		tempNum = i + 1;
+		cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << endl;
+	}
+
+	cout << "Which account # would you like to Delete:\t" << endl;
+	cin >> selection;
+	server.logData(customer, selection);
+
+	for (int j = 0; j != accounts.size(); j++)
+	{
+		if (selection == (j + 1))
 		{
-			tempNum = i + 1;
-			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << endl;
-
-			cout << "Would you like to Cancel this account (ALL FUNDS WILL BE DESTORYED)? (Y/N)" << endl;
-			cin >> input;
-			server.logData(customer, input);
-
-			if (input.compare("Y") || input.compare("y"))
-			{
-				customer->deleteAccount(accounts[i]);
-				break;
-			}
-			system("clear");
+			customer->deleteAccount(accounts[j]);
 		}
 	}
-	
+	server.serialize();
 	mainMenu(customer);
 }
 
@@ -425,6 +423,7 @@ void transferBetweenAccounts(Customer *customer)
 	accounts[from]->withdraw(howmuch);
 	accounts[to]->deposit(howmuch);
 
+	server.serialize();
 	mainMenu(customer);
 }
 

@@ -43,9 +43,8 @@ void Customer::deleteAccount(Account *account)
 	int element = 0;
 	for (int i = 0; i != accounts.size(); i++)
 	{
-		if (accounts[i]->getName().compare(account->getName()))
+		if (accounts[i]->getName().compare(account->getName()) == 0)
 		{
-			cout << "FOUND";
 			element = i;
 			break;
 		}
