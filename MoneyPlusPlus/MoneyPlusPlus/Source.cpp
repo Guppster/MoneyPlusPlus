@@ -349,9 +349,9 @@ void cancelOwnAccount(Customer *customer)
 		if (accounts[i]->getApproved() == 1)
 		{
 			tempNum = i + 1;
-			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << "\n";
+			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << endl;
 
-			cout << "Would you like to Cancel this account (ALL FUNDS WILL BE DESTORYED)? (Y/N)";
+			cout << "Would you like to Cancel this account (ALL FUNDS WILL BE DESTORYED)? (Y/N)" << endl;
 			cin >> input;
 			server.logData(customer, input);
 
@@ -372,60 +372,53 @@ void transferBetweenAccounts(Customer *customer)
 	system("clear");
 	vector<Account*> accounts = customer->getAccounts();
 
-	string input;
+	int selection;
+	int tempNum;
+	int i;
 
 	int from;
 	int to;
 	int howmuch;
 
 	//List all accounts
-	for (int i = 0; i != accounts.size(); i++)
+	for (i = 0; i != accounts.size(); i++)
 	{
 		if (accounts[i]->getApproved() == 1)
 		{
-			cout  << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << endl;
-
-			cout << "Would you like to send funds from this account? (Y/N)\n";
-			cin >> input;
-			server.logData(customer, input);
-
-			if (input.compare("Y") || input.compare("y"))
-			{
-				from = i;
-				break;
-			}
-			else if(input.compare("N") || input.compare("n"))
-			{
-				cout << "OKAY";
-			}
-
+			tempNum = i + 1;
+			cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << endl;
 		}
 	}
 
-	//List all accounts
-	for (int i = 0; i != accounts.size(); i++)
+	cout << "Which account # would you like to send money from:\t" << endl;
+
+	cin >> selection;
+
+	server.logData(customer, selection);
+
+	for (int j = 0; j != accounts.size(); j++)
 	{
-		if (accounts[i]->getApproved() == 1)
+		if (selection == (tempNum - j))
 		{
-			cout  << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << endl;
-
-			cout << "Would you like to send funds to this account? (Y/N)";
-			cin >> input;
-			server.logData(customer, input);
-
-			if (input.compare("Y") || input.compare("y"))
-			{
-				to = i;
-				break;
-			}
-			else if(input.compare("N") || input.compare("n"))
-			{
-				cout << "OKAY";
-			}
+			from = tempNum - j - 1;
 		}
 	}
 
-	cout << "How much would you like to send?\n";
+	cout << "Which account # would you like to send money to:\t" << endl;
+
+	cin >> selection;
+
+	server.logData(customer, selection);
+
+	for (int j = 0; j != accounts.size(); j++)
+	{
+		if (selection == (tempNum - j))
+		{
+			to = tempNum - j - 1;
+		}
+	}
+
+	cout << "How much would you like to transfer?:\t" << endl;
 	cin >> howmuch;
 	server.logData(customer, howmuch);
 
