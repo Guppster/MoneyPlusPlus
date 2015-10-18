@@ -200,9 +200,9 @@ void mainMenu(Customer *customer)
 			{
 				if (selection == (counter - j))
 				{
-					if (accounts[j]->getApproved() == 1)
+					if (accounts[counter - j-1]->getApproved() == 1)
 					{
-						openAccount(customer, accounts[j]);
+						openAccount(customer, accounts[counter - j - 1]);
 					}
 					else
 					{
