@@ -446,7 +446,18 @@ void cancelOwnAccount(Customer *customer)
 	{
 		if (selection == (j + 1))
 		{
-			customer->deleteAccount(accounts[j]);
+			if (accounts[j]->getBalance() == 0)
+			{
+				customer->deleteAccount(accounts[j]);
+			}
+			else
+			{
+				cout << "\nUnable to delete account. Please withdraw all funds first" << endl;
+				cout << "Press Enter to Continue...";
+				cin.get();
+				cin.get();
+			}
+
 		}
 	}
 	server.serialize();
