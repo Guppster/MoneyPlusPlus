@@ -294,8 +294,8 @@ void mainMenu(Customer *customer)
 		cout << "You are a Maintenance person\n";
 
 		cout << "1. " << "Toggle execution trace\n";
-		cout << "5. " << "Logout\n";
-		cout << "6. " << "Exit Program\n";
+		cout << "2. " << "Logout\n";
+		cout << "3. " << "Exit Program\n";
 
 		cout << "\nOption #: ";
 

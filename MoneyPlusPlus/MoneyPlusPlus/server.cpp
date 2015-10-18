@@ -34,7 +34,7 @@ void Server::logData(Customer* customer, int data)
 	if (trace)
 	{
 		ofstream list("log.txt", ios::app);
-		time_t currentTime;
+		//time_t currentTime;
 		//Time function will only work on windows
 		//currentTime = chrono::system_clock::to_time_t(chrono::system_clock::now());
 		// ctime(&currentTime)
@@ -49,7 +49,7 @@ void Server::logData(Customer* customer, string data)
 	if (trace)
 	{
 		ofstream list("log.txt", ios::app);
-		time_t currentTime;
+		//time_t currentTime;
 		//Time function will only work on windows
 		//currentTime = chrono::system_clock::to_time_t(chrono::system_clock::now());
 		// ctime(&currentTime)
@@ -130,7 +130,27 @@ void Server::deserialize()
 	string email;
 	string pass;
 
-	ifstream list("Customers.txt");
+	ifstream logList("trace.txt");
+
+	if (logList.is_open())
+	{
+		//Read in the showing if trace is true or false
+		getline(logList, line);
+
+		if (atoi(line.c_str()) == 0)
+		{
+			trace = false;
+		}
+		else
+		{
+			trace = true;
+		}
+		logList.close();
+	}
+	else cout << "Unable to open file";
+
+	ifstream list("customers.txt");
+
 	if (list.is_open())
 	{
 		while (getline(list, line))
@@ -169,7 +189,22 @@ void Server::serialize()
 {
 	vector<Account*> accs;
 
-	ofstream list("Customers.txt");
+	ofstream logList("trace.txt");
+	if (logList.is_open())
+	{
+		if (trace)
+		{
+			logList << 1 << endl;
+		}
+		else
+		{
+			logList << 0 << endl;
+		}
+		logList.close();
+	}
+	else cout << "Error: Unable to save";
+
+	ofstream list("customers.txt");
 	if (list.is_open())
 	{
 		for (vector<Customer>::size_type i = 0; i != customers.size(); i++)
