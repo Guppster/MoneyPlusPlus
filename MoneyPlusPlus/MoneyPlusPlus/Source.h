@@ -18,6 +18,8 @@ void applyForAccountforManager(Customer *customer, Customer *managerCustomer);
 Customer* registerNewFromManager();
 void managerDeleteAccount(Customer *);
 void viewCustomerAccount(Customer *);
+void transferToAnotherCustomer(Customer *);
+void createAccountForExisting(Customer *);
 void viewAllAccounts(Customer *);
 void viewAwaitingApproval(Customer *);
 void changeYourPassword(Customer*);

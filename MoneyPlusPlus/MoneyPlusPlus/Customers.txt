@@ -1,10 +1,10 @@
 1,Admin,Singh,Admin@gmail.com,21,1
 2,Admin,Singh,Admin@gmail.com,21,2
 5,Gurpreet,Singh,gs@uwo.ca,1,0
-0,HEOLLO,1480,1|1,savings,0,1|
+0,HEOLLO,1500,1|1,savings,1010,1|
 147483647,Jaspreet,Toor,jtoor7@uwo.ca,Bob,0
-
+1,omg,4490,1|
 147483648,Rana,Toor,rana@blah.ca,Bob,0
-0,123,0,1|
+0,123,1000000,1|
 147483649,Billy,Joe,billyjoe,1234,0
 0,checkingdsf,0,1|

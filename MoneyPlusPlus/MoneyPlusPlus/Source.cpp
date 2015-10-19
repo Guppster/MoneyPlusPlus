@@ -185,6 +185,7 @@ void mainMenu(Customer *customer)
 
 			cout << i++ << ". " << "Apply for an Account\n";
 			cout << i++ << ". " << "Transfer money between accounts\n";
+			cout << i++ << ". " << "Transfer money to another customer\n";
 			cout << i++ << ". " << "Cancel an Account\n";
 			cout << i++ << ". " << "Change your password\n";
 			cout << i++ << ". " << "Logout\n";
@@ -225,19 +226,23 @@ void mainMenu(Customer *customer)
 			}
 			else if (selection == (counter + 3))
 			{
-				cancelOwnAccount(customer);
+				transferToAnotherCustomer(customer);
 			}
 			else if (selection == (counter + 4))
 			{
-				changeYourPassword(customer);
+				cancelOwnAccount(customer);
 			}
 			else if (selection == (counter + 5))
+			{
+				changeYourPassword(customer);
+			}
+			else if (selection == (counter + 6))
 			{
 				server.serialize();
 				system("clear");
 				main();
 			}
-			else if (selection == (counter + 6))
+			else if (selection == (counter + 7))
 			{
 				server.serialize();
 			}
@@ -269,24 +274,7 @@ void mainMenu(Customer *customer)
 		}
 		else if (selection == 2)
 		{
-			system("clear");
-			cout << "Enter the ID of the user you wish to edit: ";
-			cin >> selection;
-
-			Customer *delCustomer = server.findCustomer(selection);
-			if (delCustomer != NULL)
-			{
-				applyForAccountforManager(delCustomer, customer);
-			}
-			else
-			{
-				cout << "\nUser not found!\n";
-				cout << "Press Enter to Continue...";
-				cin.get();
-				cin.get();
-			}
-
-			mainMenu(customer);
+			createAccountForExisting(customer);
 		}
 		else if (selection == 3)
 		{
@@ -365,6 +353,115 @@ void mainMenu(Customer *customer)
 		}
 	}
 }//End of main menu method
+
+void transferToAnotherCustomer(Customer *customer)
+{
+	system("clear");
+	vector<Account*> accounts = customer->getAccounts();
+	int selection;
+	int amount;
+	int tempNum;
+	int from;
+	int i;
+	int to;
+
+	cout << "Enter the ID of the user you wish to send money to: ";
+	cin >> selection;
+
+	Customer *delCustomer = server.findCustomer(selection);
+	vector<Account*> delCustomerAccounts = delCustomer->getAccounts();
+	if (delCustomer != NULL)
+	{
+		//List all accounts
+		for (i = 0; i != accounts.size(); i++)
+		{
+			if (accounts[i]->getApproved() == 1)
+			{
+				tempNum = i + 1;
+				cout << tempNum << ". " << accounts[i]->getName() << " - " << accounts[i]->getTypeinString() << " account" << endl;
+			}
+		}
+
+		cout << "Which account # would you like to send money from:\t" << endl;
+
+		cin >> selection;
+		server.logData(customer, selection);
+
+		for (int j = 0; j != accounts.size(); j++)
+		{
+			if (selection == (tempNum - j))
+			{
+				from = tempNum - j - 1;
+			}
+		}
+
+		//List all accounts
+		for (i = 0; i != delCustomerAccounts.size(); i++)
+		{
+			if (delCustomerAccounts[i]->getApproved() == 1)
+			{
+				tempNum = i + 1;
+				cout << tempNum << ". " << delCustomerAccounts[i]->getName() << " - " << delCustomerAccounts[i]->getTypeinString() << " account" << endl;
+			}
+		}
+
+		cout << "\nWhich account # would you like to send money to:\t" << endl;
+
+		cin >> selection;
+		server.logData(customer, selection);
+
+		for (int j = 0; j != delCustomerAccounts.size(); j++)
+		{
+			if (selection == (tempNum - j))
+			{
+				to = tempNum - j - 1;
+			}
+		}
+
+		cout << "\nHow much would you like to send them:\t!\n";
+		cin >> amount;
+		server.logData(customer, amount);
+
+		accounts[from]->withdraw(amount);
+		delCustomerAccounts[to]->deposit(amount);
+
+		server.serialize();
+
+	}
+	else
+	{
+		cout << "\nUser not found!\n";
+		cout << "Press Enter to Continue...";
+		cin.get();
+		cin.get();
+	}
+
+	mainMenu(customer);
+}
+
+void createAccountForExisting(Customer *customer)
+{
+	int selection;
+	system("clear");
+	cout << "Enter the ID of the user you wish to edit: ";
+	cin >> selection;
+	server.logData(customer, selection);
+
+	Customer *delCustomer = server.findCustomer(selection);
+	if (delCustomer != NULL)
+	{
+		applyForAccountforManager(delCustomer, customer);
+	}
+	else
+	{
+		cout << "\nUser not found!\n";
+		cout << "Press Enter to Continue...";
+		cin.get();
+		cin.get();
+	}
+
+	mainMenu(customer);
+}
 
 void viewCustomerAccount(Customer *customer)
 {
