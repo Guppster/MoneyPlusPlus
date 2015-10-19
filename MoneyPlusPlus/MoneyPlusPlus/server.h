@@ -6,6 +6,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <sstream>
+#include <ctime>
 #include "customer.h"
 
 using namespace std;

@@ -31,14 +31,19 @@ void Server::setTrace(bool trace_)
 
 void Server::logData(Customer* customer, int data)
 {
+	time_t rawTime;
+	struct tm*timeInfo;
+	char timeBuffer[25];
+
+	time(&rawTime);
+	timeInfo = localtime(&rawTime);
+
+	strftime(timeBuffer, 25, "%d/%m/%y %I:%M%p: ", timeInfo);
+
 	if (trace)
 	{
 		ofstream list("log.txt", ios::app);
-		//time_t currentTime;
-		//Time function will only work on windows
-		//currentTime = chrono::system_clock::to_time_t(chrono::system_clock::now());
-		// ctime(&currentTime)
-		list << "ID: " << customer->getID() << ", Option Entered: " << data << endl;
+		list << "ID: " << customer->getID() << ", Option Entered: " << data << ", Time: " << string(timeBuffer) << endl;
 
 		list.close();
 	}
