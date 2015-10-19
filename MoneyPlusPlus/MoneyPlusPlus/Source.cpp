@@ -248,13 +248,14 @@ void mainMenu(Customer *customer)
 		cout << "You are a Manager\n";
 
 		cout << "1. " << "View accounts awaiting approval\n";
-		cout << "2. " << "Create new Customer\n";
-		cout << "3. " << "Delete Account\n";
-		cout << "4. " << "View Accounts for A Customer\n";
-		cout << "5. " << "View All Accounts\n";
-		cout << "6. " << "Change your password\n";
-		cout << "7. " << "Logout\n";
-		cout << "8. " << "Exit Program\n";
+		cout << "2. " << "Create new Account for existing customer\n";
+		cout << "3. " << "Create new Customer\n";
+		cout << "4. " << "Delete Account\n";
+		cout << "5. " << "View Accounts for A Customer\n";
+		cout << "6. " << "View All Accounts\n";
+		cout << "7. " << "Change your password\n";
+		cout << "8. " << "Logout\n";
+		cout << "9. " << "Exit Program\n";
 
 		cout << "\nOption #: ";
 
@@ -269,32 +270,53 @@ void mainMenu(Customer *customer)
 		else if (selection == 2)
 		{
 			system("clear");
-			applyForAccountforManager(registerNewFromManager(), customer);
+			cout << "Enter the ID of the user you wish to edit: ";
+			cin >> selection;
+
+			Customer *delCustomer = server.findCustomer(selection);
+			if (delCustomer != NULL)
+			{
+				applyForAccountforManager(delCustomer, customer);
+			}
+			else
+			{
+				cout << "\nUser not found!\n";
+				cout << "Press Enter to Continue...";
+				cin.get();
+				cin.get();
+			}
+
+			mainMenu(customer);
 		}
 		else if (selection == 3)
 		{
-			managerDeleteAccount(customer);
+			system("clear");
+			applyForAccountforManager(registerNewFromManager(), customer);
 		}
 		else if (selection == 4)
 		{
-			viewCustomerAccount(customer);
+			managerDeleteAccount(customer);
 		}
 		else if (selection == 5)
 		{
-			viewAllAccounts(customer);
+			viewCustomerAccount(customer);
 		}
 		else if (selection == 6)
+		{
+			viewAllAccounts(customer);
+		}
+		else if (selection == 7)
 		{
 			system("clear");
 			changeYourPassword(customer);
 		}
-		else if (selection == 7)
+		else if (selection == 8)
 		{
 			system("clear");
 			server.serialize();
 			main();
 		}
-		else if (selection == 8)
+		else if (selection == 9)
 		{
 			server.serialize();
 		}
@@ -358,30 +380,40 @@ void viewCustomerAccount(Customer *customer)
 	server.logData(customer, id);
 
 	Customer *delCustomer = server.findCustomer(id);
-
-	vector<Account*> accs = delCustomer->getAccounts();
-
-	if (accs.size() != 0)
+	if (delCustomer != NULL)
 	{
-		for (int i = 0; i < accs.size(); i++)
-		{
-			tempApproved = (accs[i]->getApproved() == 0) ? " - [UNAPPROVED]" : "";
-			tempNum = i + 1;
-			cout << tempNum << ". " << accs[i]->getName() << " - " << accs[i]->getTypeinString() << " account" << tempApproved << " - Balance: $" << accs[i]->getBalance() << endl;
-			counter = i + 1;
-		}
+		vector<Account*> accs = delCustomer->getAccounts();
 
-		cout << "Press Enter to Continue...";
-		cin.get();
-		cin.get();
+		if (accs.size() != 0)
+		{
+			for (int i = 0; i < accs.size(); i++)
+			{
+				tempApproved = (accs[i]->getApproved() == 0) ? " - [UNAPPROVED]" : "";
+				tempNum = i + 1;
+				cout << tempNum << ". " << accs[i]->getName() << " - " << accs[i]->getTypeinString() << " account" << tempApproved << " - Balance: $" << accs[i]->getBalance() << endl;
+				counter = i + 1;
+			}
+
+			cout << "Press Enter to Continue...";
+			cin.get();
+			cin.get();
+		}
+		else
+		{
+			cout << "\nNo accounts found for this user.\n";
+			cout << "Press Enter to Continue...";
+			cin.get();
+			cin.get();
+		}
 	}
 	else
 	{
-		cout << "\nNo accounts found for this user.\n";
+		cout << "\nUser not found!\n";
 		cout << "Press Enter to Continue...";
 		cin.get();
 		cin.get();
 	}
+
 	mainMenu(customer);
 }
 
